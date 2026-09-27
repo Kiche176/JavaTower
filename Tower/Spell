@@ -1,0 +1,46 @@
+public class Spell {
+    private String name;
+    private Element element = Physical;
+    private double multiplier;
+
+    private int targetCount;
+    private DamageType damageType;
+    private int staminaCost;
+
+    public Spell(String name, Element element, double multiplier, int targetCount, DamageType damageType, int staminaCost) {
+        this.name = name;
+        this.element = element;
+        this.multiplier = multiplier;
+        this.targetCount = targetCount;
+        this.damageType = damageType;
+        this.staminaCost = staminaCost;
+    }
+}
+
+// Utility Spells
+Spell heal = new Spell("Heal", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 10);
+Spell meditate = new Spell("Meditate", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 0);
+Spell bonk = new Spell("Bonk", Element.PHYSICAL, 1.5, 1, DamageType.BLUNT, 0);
+
+// Beginner Spells
+Spell ember = new Spell("Ember", Element.FIRE, 1.5, 1, DamageType.NEUTRAL, 10);
+Spell splash = new Spell("Splash", Element.WATER, 1.5, 1, DamageType.NEUTRAL, 10);
+Spell icicle = new Spell("Icicle", Element.ICE, 1, 1, DamageType.PIERCE, 10);
+Spell stone = new Spell("Stone", Element.EARTH, 2, 1, DamageType.BLUNT, 10);
+Spell gale = new Spell("Gale", Element.WIND, 1.5, 1, DamageType.NEUTRAL, 10);
+Spell bolt = new Spell("Bolt", Element.THUNDER, 1.5, 1, DamageType.PIERCE, 10);
+
+// Advanced Spells
+Spell eruption = new Spell("Eruption", Element.FIRE, 2, 99, DamageType.NEUTRAL, 35);
+Spell ignite = new Spell("Ignite", Element.FIRE, 2, 1, "DoT", 40);
+Spell tsunami = new Spell("Tsunami", Element.WATER, 2, 99, DamageType.NEUTRAL, 25);
+Spell waterfall = new Spell("Waterfall", Element.WATER, 2, 1, DamageType.NEUTRAL, 25);
+Spell hailstorm = new Spell("Hailstorm", Element.ICE, 2, 99, DamageType.PIERCE, 20);
+Spell iceLance = new Spell("Ice Lance", Element.ICE, 2, 1, DamageType.PIERCE, 20);
+Spell rockslide = new Spell("Rockslide", Element.EARTH, 2, 99, DamageType.NEUTRAL, 20);
+Spell planetaryDevastation = new Spell("Planetary Devastation", Element.EARTH, 5, 99, DamageType.BLUNT, 80);
+Spell windScythe = new Spell("Wind Scythe", Element.WIND, 2, 1, DamageType.NEUTRAL, 20);
+Spell tornado = new Spell("Tornado", Element.WIND, 2, 1, DamageType.NEUTRAL, 20);
+Spell kamui = new Spell("Kamui", Element.THUNDER, 2, 1, DamageType.PIERCE, 20);
+Spell thunderstorm = new Spell("Thunderstorm", Element.THUNDER, 2, 99, "DoT", 50);
+Spell greatHeal = new Spell("Great Heal", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 25);

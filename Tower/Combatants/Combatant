@@ -1,0 +1,27 @@
+public abstract class Combatant {
+    protected String name;
+    protected int LVL;
+    protected int STR;
+    protected int ART;
+    protected int AGI;
+    protected int DEF;
+    protected int RES;
+
+
+    protected int staminaStat;
+    protected int manaStat;
+    protected int healthStat;
+
+    protected int maxStamina;
+    protected int maxMana;
+    protected int maxHealth;
+
+    protected int currentStamina;
+    protected int currentMana;
+    protected int currentHealth;    
+
+
+    Move[] moves;
+    Skill[] skills;
+    Spell[] spells;
+}

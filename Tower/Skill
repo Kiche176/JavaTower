@@ -1,0 +1,39 @@
+public class Skill {
+    private String name;
+    private Element element = Physical;
+    private double multiplier;
+
+    private int targetCount;
+    private DamageType damageType;
+    private int staminaCost;
+
+    public Skill(String name, Element element, double multiplier, int targetCount, DamageType damageType, int staminaCost) {
+        this.name = name;
+        this.element = element;
+        this.multiplier = multiplier;
+        this.targetCount = targetCount;
+        this.damageType = damageType;
+        this.staminaCost = staminaCost;
+    }
+}
+
+// Utility Skills
+Skill switchWeapon = new Skill("Switch", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 0);
+
+// Beginner Skills
+Skill slash = new Skill("Slash", Element.PHYSICAL, 2.5, 1, DamageType.SLASH, 10);
+Skill stab = new Skill("Stab", Element.PHYSICAL, 2, 1, DamageType.PIERCE, 10);
+Skill bash = new Skill("Bash", Element.PHYSICAL, 1.5, 1, DamageType.BLUNT, 5);
+Skill clobber = new Skill("Clobber", Element.PHYSICAL, 2.5, 1, DamageType.BLUNT, 7);
+Skill bonk = new Skill("Bonk", Element.PHYSICAL, 2, 1, DamageType.BLUNT, 5);
+Skill punch = new Skill("Punch", Element.PHYSICAL, 1, 1, DamageType.BLUNT, 5);
+Skill kick = new Skill("Kick", Element.PHYSICAL, 1, 1, DamageType.BLUNT, 5);
+
+// Advanced Skills
+Skill slice = new Skill("Slice", Element.PHYSICAL, 3, 1, DamageType.SLASH, 20);
+Skill dice = new Skill("Dice", Element.PHYSICAL, 2.5, 1, DamageType.PIERCE, 15);
+Skill decimate = new Skill("Decimate", Element.PHYSICAL, 5, 99, DamageType.SLASH, 35);
+Skill shieldCharge = new Skill("Shield Charge", Element.PHYSICAL, 2.5, 1, DamageType.BLUNT, 10);
+Skill needleRain = new Skill("Needle Rain", Element.PHYSICAL, 4, 99, DamageType.PIERCE, 25);
+Skill annihilation = new Skill("Annihilation", Element.PHYSICAL, 8, 1, DamageType.SLASH, 75);
+
