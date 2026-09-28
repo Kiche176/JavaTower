@@ -1,5 +1,6 @@
 public enum Affliction {
     // BASIC AFFLICTIONS
+    PHYSICAL(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
     HOT(AfflictionType.BASIC, 0, 0, null 0, 0, 0, 0, 0),
     WET(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
     COLD(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
@@ -17,7 +18,10 @@ public enum Affliction {
     FREEZING(AfflictionType.ADVANCED, 0, 0, null, 0, 0, 0.5, 0, 0),
     SWAMPED(AfflictionType.ADVANCED, 0, 0, null, 0, 0, 0.2, 0, 0.2),
     ELECTRIFIED(AfflictionType.ADVANCED, 3, 0.2, Element.THUNDER, 0, 0, 0, 0.2, 0),
-    HARDENED(AfflictionType.ADVANCED, 0, 0, null, 0, 0, 0.7, -0.3, -0.3);
+    HARDENED(AfflictionType.ADVANCED, 0, 0, null, 0, 0, 0.7, -0.3, -0.3),
+
+    // HIDDEN 
+    SUSTAIN(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0);
 
     private final AfflictionType afflictionType;
     private final int ticks;

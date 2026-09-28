@@ -1,0 +1,27 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public interface IStatSource {
+    public int getSTR();
+    public int getART();
+    public int getAGI();
+    public int getDEF();
+    public int getRES();
+
+    public int getStaminaStat();
+    public int getManaStat();
+    public int getHealthStat();
+
+    public int getMaxStamina();
+    public int getMaxMana();
+    public int getMaxHealth();
+
+    public int getCurrentStamina();
+    public int getCurrentMana();
+    public int getCurrentHealth();    
+
+
+    public Set<Move> getMoves();
+    public Set<Skill> getSkills();
+    public Set<Spell> getSpells();
+}

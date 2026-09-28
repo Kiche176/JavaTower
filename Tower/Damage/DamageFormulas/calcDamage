@@ -1,0 +1,345 @@
+public double calculateDamage(Combatant attacker, Combatant defender, Move move):
+
+    # -------------------------------------------------------------------------------------------------------------------------------------------
+    # PHYSICAL DAMAGE
+    # -------------------------------------------------------------------------------------------------------------------------------------------
+    if element == "Physical":
+        damage = physDamage(attacker, defender, move)
+        if defender.status == "frozen":
+            print(f"{(defender.name).upper()} has been shattered ")
+            damage *= shatteredMultiplier
+            defender.status = "" # reset the status
+
+
+    # -------------------------------------------------------------------------------------------------------------------------------------------
+    # AGAINST NEUTRAL ENEMIES
+    # -------------------------------------------------------------------------------------------------------------------------------------------
+    else:
+        if defender.status == "": # neutral enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = "hot"
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = "wet"
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = "cold"
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = "rocky"
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = "charged"
+
+
+        # -------------------------------------------------------------------------------------------------------------------------------------------
+        # BASIC REACTIONS
+        # -------------------------------------------------------------------------------------------------------------------------------------------
+        elif defender.status == "hot": # hot enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= burnedMultiplier
+                defender.status = "burned"
+                print(f"{(defender.name).upper()} is burning. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= vaporizedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been vaporised. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (1 / meltedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has resisted. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * swirlMultiplier
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+
+        elif defender.status == "wet": # wet enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (1 / vaporizedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has resisted. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= drownedMultiplier
+                defender.status = "drowned"
+                print(f"{(defender.name).upper()} is drowning. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= frozenMultiplier
+                defender.status = "frozen"
+                print(f"{(defender.name).upper()} has been partially frozen. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                damage *= swampedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been swamped in mud. ")
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * swirlMultiplier
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                damage *= electrifiedMultiplier
+                print(f"{(defender.name).upper()} has been electrified. ")
+                defender.status = ""
+        
+
+        elif defender.status == "cold": # cold enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= meltedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been melted. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= frozenMultiplier
+                defender.status = "frozen"
+                print(f"{(defender.name).upper()} has been partially frozen. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= frostedMultiplier
+                defender.status = "frosted"
+                print(f"{(defender.name).upper()} has been frosted. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * swirlMultiplier
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+            
+
+        elif defender.status == "rocky": # rocky enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= swampedMultiplier
+                defender.status = "swamped"
+                print(f"{(defender.name).upper()} has been swamped in mud. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (1 / groundedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has resisted. ")
+                
+
+        elif defender.status == "charged": # charged enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= electrifiedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been electrified. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                damage *= groundedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been grounded. ")
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * swirlMultiplier
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                damage *= stunnedMultiplier
+                defender.status = "stunned"
+                print(f"{(defender.name).upper()} has been stunned. ")
+                            
+        # -------------------------------------------------------------------------------------------------------------------------------------------
+        # DOUBLE REACTIONS and EXTRA REACTOINS
+        # -------------------------------------------------------------------------------------------------------------------------------------------
+        elif defender.status == "burned": # burned enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= burnedMultiplier
+                print(f"{(defender.name).upper()} is burning. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (vaporizedMultiplier + enhancedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been vaporised. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (1 / (meltedMultiplier + enhancedMultiplier))
+                defender.status = ""
+                print(f"{(defender.name).upper()} has resisted. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * (swirlMultiplier + enhancedMultiplier)
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+            
+        
+        elif defender.status == "drowned": # drowned enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (1 / (vaporizedMultiplier + enhancedMultiplier))
+                defender.status = ""
+                print(f"{(defender.name).upper()} has resisted. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= drownedMultiplier
+                print(f"{(defender.name).upper()} is drowning. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (frozenMultiplier + enhancedMultiplier)
+                defender.status = "frozen"
+                print(f"{(defender.name).upper()} has been partially frozen. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                damage *= swampedMultiplier
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been swamped in mud. ") # no enhanced reaction for this one
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * (swirlMultiplier + enhancedMultiplier)
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (electrifiedMultiplier + enhancedMultiplier)
+                print(f"{(defender.name).upper()} has been electrified. ")
+                defender.status = ""
+        
+
+        elif defender.status == "frosted" or "frozen": # frosted or frozen enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (meltedMultiplier + enhancedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been melted. ")
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (frozenMultiplier + enhancedMultiplier)
+                defender.status = "frozen"
+                print(f"{(defender.name).upper()} has been partially frozen. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                damage *= frostedMultiplier
+                print(f"{(defender.name).upper()} has been frosted. ")
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                if defender.status == "frozen":
+                    damage *= shatteredMultiplier
+                defender.status = ""
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * (swirlMultiplier + enhancedMultiplier)
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+                            
+
+        elif defender.status == "stunned" or "electrified": # stunned or electrified enemies
+            if element == "Fire":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Water":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (electrifiedMultiplier + enhancedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been electrified. ")
+
+            elif element == "Ice":
+                damage = artsDamage(attacker, defender, move)
+                defender.status = ""
+
+            elif element == "Earth":
+                damage = artsDamage(attacker, defender, move)
+                damage *= (groundedMultiplier + enhancedMultiplier)
+                defender.status = ""
+                print(f"{(defender.name).upper()} has been grounded. ")
+
+            elif element == "Wind":
+                damage = artsDamage(attacker, defender, move)
+                damage * (swirlMultiplier + enhancedMultiplier)
+                print(f"{(defender.name).upper()} has been swirled. ")
+
+            elif element == "Thunder":
+                damage = artsDamage(attacker, defender, move)
+                damage *= stunnedMultiplier
+                print(f"{(defender.name).upper()} has been stunned. ")
+
+    return int(damage)

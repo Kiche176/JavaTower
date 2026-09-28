@@ -3,6 +3,7 @@ import java.util.Map;
 
 public class ReactionData {
     private Affliction[] basicAfflictions = {
+        Affliction.PHYSICAL,
         Affliction.HOT,
         Affliction.WET,
         Affliction.COLD,
@@ -57,6 +58,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.HOT, Affliction.BREEZED),
             new ReactionResult(Reaction.SWIRL, Affliction.HOT)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.HOT, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         // WET
@@ -84,6 +89,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.WET, Affliction.CHARGED),
             new ReactionResult(Reaction.ELECTRIFY, Affliction.ELECTRIFIED)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.WET, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         // COLD
@@ -102,6 +111,10 @@ public class ReactionData {
         reactions.put(
             new AfflictionPair(Affliction.COLD, Affliction.BREEZED),
             new ReactionResult(Reaction.SWIRL, Affliction.COLD)
+        );
+        reactions.put(
+            new AfflictionPair(Affliction.COLD, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
         );
 
 
@@ -139,6 +152,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.CHARGED, Affliction.CHARGED),
             new ReactionResult(null, Affliction.STUNNED)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.CHARGED, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         //DOUBLE REACTIONS
@@ -163,6 +180,10 @@ public class ReactionData {
         reactions.put(
             new AfflictionPair(Affliction.BURNING, Affliction.BREEZED),
             new ReactionResult(Reaction.SWIRL, Affliction.HOT)
+        );
+        reactions.put(
+            new AfflictionPair(Affliction.BURNING, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
         );
 
 
@@ -191,6 +212,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.DROWNING, Affliction.CHARGED),
             new ReactionResult(Reaction.ELECTRIFY, Affliction.ELECTRIFIED)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.DROWNING, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         // FROSTY
@@ -210,6 +235,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.FROSTY, Affliction.BREEZED),
             new ReactionResult(Reaction.SWIRL, Affliction.FROSTY)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.FROSTY, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         // STUNNED
@@ -228,6 +257,10 @@ public class ReactionData {
         reactions.put(
             new AfflictionPair(Affliction.STUNNED, Affliction.CHARGED),
             new ReactionResult(null, Affliction.STUNNED)
+        );
+        reactions.put(
+            new AfflictionPair(Affliction.STUNNED, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
         );
 
 
@@ -251,6 +284,10 @@ public class ReactionData {
         reactions.put(
             new AfflictionPair(Affliction.FREEZING, Affliction.BREEZED),
             new ReactionResult(Reaction.SWIRL, Affliction.FROSTY)
+        );
+        reactions.put(
+            new AfflictionPair(Affliction.FREEZING, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SHATTER)
         );
 
 
@@ -279,6 +316,10 @@ public class ReactionData {
             new AfflictionPair(Affliction.SWAMPED, Affliction.CHARGED),
             new ReactionResult(Reaction.REVERSEGROUNDED, null)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.SWAMPED, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
 
         // HARDENED
@@ -297,6 +338,10 @@ public class ReactionData {
         reactions.put(
             new AfflictionPair(Affliction.HARDENED, Affliction.CHARGED),
             new ReactionResult(Reaction.REVERSEGROUNDED, null)
+        );
+        reactions.put(
+            new AfflictionPair(Affliction.HARDENED, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SHATTER)
         );
 
 
@@ -317,19 +362,23 @@ public class ReactionData {
             new AfflictionPair(Affliction.ELECTRIFIED, Affliction.CHARGED),
             new ReactionResult(null, Affliction.STUNNED)
         );
+        reactions.put(
+            new AfflictionPair(Affliction.ELECTRIFIED, Affliction.PHYSICAL),
+            new ReactionResult(null, Affliction.SUSTAIN)
+        );
 
     }
 
-    public static Affliction returnAffliction(Affliction initial, Affliction trigger) {
+    public Affliction returnAffliction(Affliction initial, Affliction trigger) {
         if (initial == null) {
-            if (trigger == Affliction.BREEZED) return null;
+            if (trigger == Affliction.PHYSICAL || trigger == Affliction.BREEZED) return null;
             else return trigger;
         }
         ReactionResult res = this.reactions.get(new AfflictionPair(initial, trigger));
         return res.affliction();
     }
 
-    public static Reaction returnReaction(Affliction initial, Affliction trigger) {
+    public Reaction returnReaction(Affliction initial, Affliction trigger) {
         if (initial == null) return null // Can't have a reaction with nothing initially applied
         
         ReactionResult res = this.reactions.get(new AfflictionPair(initial, trigger));

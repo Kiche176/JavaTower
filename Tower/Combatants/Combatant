@@ -1,4 +1,7 @@
-public abstract class Combatant {
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract class Combatant implements IStatSource {
     protected String name;
     protected int LVL;
     protected int STR;
@@ -21,7 +24,31 @@ public abstract class Combatant {
     protected int currentHealth;    
 
 
-    Move[] moves;
-    Skill[] skills;
-    Spell[] spells;
+    Set<Move> moves;
+    Set<Skill> skills;
+    Set<Spell> spells;
+
+    public int getLVL() {return this.LVL};
+    public int getSTR() {return this.STR};
+    public int getART() {return this.ART};
+    public int getAGI() {return this.AGI};
+    public int getDEF() {return this.DEF};
+    public int getRES() {return this.RES};
+
+    public int getStaminaStat() {return this.staminaStat};
+    public int getManaStat() {return this.manaStat};
+    public int getHealthStat() {return this.healthStat};
+
+    public int getMaxStamina() {return this.maxStamina};
+    public int getMaxMana() {return this.maxMana};
+    public int getMaxHealth() {return this.maxHealth};
+
+    public int getCurrentStamina() {return this.currentStamina};
+    public int getCurrentMana() {return this.currentMana};
+    public int getCurrentHealth() {return this.currentHealth};    
+
+
+    public Set<Move> getMoves() {return this.moves};
+    public Set<Skill> getSkills() {return this.skills};
+    public Set<Spell> getSpells() {return this.spells};
 }

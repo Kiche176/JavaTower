@@ -1,5 +1,5 @@
 public enum Element {
-    PHYSICAL(null),
+    PHYSICAL(Affliction.PHYSICAL),
     FIRE(Affliction.HOT),
     WATER(Affliction.WET),
     ICE(Affliction.COLD),
