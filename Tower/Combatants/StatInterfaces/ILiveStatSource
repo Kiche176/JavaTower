@@ -1,13 +1,6 @@
-import java.util.HashSet;
-import java.util.Set;
-
-public interface IStatSource {
-    public int getSTR();
-    public int getART();
-    public int getAGI();
-    public int getDEF();
-    public int getRES();
-
+public interface ILiveStatSource extends IStatSource {
+    public int getLVL();
+    
     public int getStaminaStat();
     public int getManaStat();
     public int getHealthStat();

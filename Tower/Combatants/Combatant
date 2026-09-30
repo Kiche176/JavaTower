@@ -1,7 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Combatant implements IStatSource {
+public abstract class Combatant implements ILiveStatSource {
     protected String name;
     protected int LVL;
     protected int STR;
@@ -28,6 +28,7 @@ public abstract class Combatant implements IStatSource {
     Set<Skill> skills;
     Set<Spell> spells;
 
+    public String getName() {return this.name};
     public int getLVL() {return this.LVL};
     public int getSTR() {return this.STR};
     public int getART() {return this.ART};

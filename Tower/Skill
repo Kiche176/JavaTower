@@ -1,6 +1,6 @@
 public class Skill {
     private String name;
-    private Element element = Physical;
+    private Element element;
     private double multiplier;
 
     private int targetCount;

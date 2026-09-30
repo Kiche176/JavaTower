@@ -1,6 +1,6 @@
 public class Spell {
     private String name;
-    private Element element = Physical;
+    private Element element;
     private double multiplier;
 
     private int targetCount;
@@ -18,9 +18,10 @@ public class Spell {
 }
 
 // Utility Spells
-Spell heal = new Spell("Heal", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 10);
-Spell meditate = new Spell("Meditate", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 0);
+Spell heal = new Spell("Heal", null, 0, 1, DamageType.NEUTRAL, 10);
+Spell meditate = new Spell("Meditate", null, 0, 1, DamageType.NEUTRAL, 0);
 Spell bonk = new Spell("Bonk", Element.PHYSICAL, 1.5, 1, DamageType.BLUNT, 0);
+Spell greatHeal = new Spell("Great Heal", null, 0, 1, DamageType.NEUTRAL, 25);
 
 // Beginner Spells
 Spell ember = new Spell("Ember", Element.FIRE, 1.5, 1, DamageType.NEUTRAL, 10);
@@ -43,4 +44,3 @@ Spell windScythe = new Spell("Wind Scythe", Element.WIND, 2, 1, DamageType.NEUTR
 Spell tornado = new Spell("Tornado", Element.WIND, 2, 1, DamageType.NEUTRAL, 20);
 Spell kamui = new Spell("Kamui", Element.THUNDER, 2, 1, DamageType.PIERCE, 20);
 Spell thunderstorm = new Spell("Thunderstorm", Element.THUNDER, 2, 99, "DoT", 50);
-Spell greatHeal = new Spell("Great Heal", Element.NEUTRAL, 0, 1, DamageType.NEUTRAL, 25);

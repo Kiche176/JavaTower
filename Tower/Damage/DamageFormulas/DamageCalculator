@@ -1,5 +1,5 @@
 class DamageCalcuator {
-    public double damageFormula(
+    private double damageFormula(
         Combatant attacker, Weapon attackingWeapon, double attackerStat, double attackingWeaponStat, 
         Combatant defender, Weapon defensiveWeapon, double defenderStat, douvle defensiveWeaponStat,
         Move move) {
@@ -10,6 +10,7 @@ class DamageCalcuator {
         double atkLVLMultiplier = attacker.getLVL() / 10.0;
         double atkMultiplier = moveMultiplier + lvlMultiplier;
         if (attackingWeapon.getElementalAffinity() == move.getElement()) atkLVLMultiplier += 0.5;
+        if (attackingWeapon.getDamageAffinity() == move.getDamageType()) atkLVLMultiplier += 0.5;
 
 
         int weaponDef = (defensiveWeapon != null) ? defensiveWeaponStat : 0;
@@ -33,7 +34,7 @@ class DamageCalcuator {
 
     }
 
-    public double physDamage(Combatant att, Combatant def, Move move) {
+    private double physDamage(Combatant att, Combatant def, Move move) {
         return calcuateDamage(
             att, att.getWeapon(), 
             att.getSTR(), att.getWeapon().getSTR(), 
@@ -42,7 +43,7 @@ class DamageCalcuator {
             move);
     }
 
-    public double artsDamage(Combatant att, Combatant def, Move move) {
+    private double artsDamage(Combatant att, Combatant def, Move move) {
         return calcuateDamage(
             att, att.getWeapon(), 
             att.getART(), att.getWeapon().getART(), 
