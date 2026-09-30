@@ -24,7 +24,7 @@ public abstract class Combatant implements ILiveStatSource {
     protected int currentHealth;    
 
 
-    Set<Move> moves;
+    Set<IAblity> abilities;
     Set<Skill> skills;
     Set<Spell> spells;
 
