@@ -17,12 +17,12 @@ public class Skill implements IAbility{
         this.staminaCost = staminaCost;
     }
 
-    public String getName();
-    public Element getElement();
-    public double getMultiplier();
+    public String getName() { return this.name; }
+    public Element getElement() { return this.element; }
+    public double getMultiplier() { return this.multiplier; }
 
-    public int getTargetCount();
-    public DamageType getDamageType();
-    public int getStaminaCost();
-    public int getManaCost();
+    public int getTargetCount() { return this.targetCount; }
+    public DamageType getDamageType() { return this.damageType; }
+    public int getStaminaCost() { return this.staminaCost; }
+    public int getManaCost() { return this.manaCost; }
 }

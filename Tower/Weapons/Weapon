@@ -60,4 +60,11 @@ public class Weapon implements IStatSource {
     public int getRequiredAGI() { return this.requiredAGI; }
     public int getRequiredDEF() { return this.requiredDEF; }
     public int getRequiredRES() { return this.requiredRES; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj instanceof Weapon) return false;
+        Weapon w = (Weapon) obj;
+        return w.getName().equals(this.name);
+    }
 }

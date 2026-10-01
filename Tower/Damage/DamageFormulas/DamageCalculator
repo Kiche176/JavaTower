@@ -1,7 +1,7 @@
-class DamageCalcuator {
+public class DamageCalcuator {
     private double damageFormula(
         Combatant attacker, Weapon attackingWeapon, double attackerStat, double attackingWeaponStat, 
-        Combatant defender, Weapon defensiveWeapon, double defenderStat, douvle defensiveWeaponStat,
+        Combatant defender, Weapon defensiveWeapon, double defenderStat, double defensiveWeaponStat,
         Move move) {
 
         int weaponAtk = (attackingWeapon != null) ? attackingWeaponStat : 0;
