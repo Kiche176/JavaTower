@@ -3,8 +3,10 @@ import java.util.Set;
 
 public class Weapon implements IStatSource {
     private String name;
-    private Element elementalAffinity;
-    private DamageType damageAffinity;
+    private Set<Element> elementalAffinities;
+    private Set<DamageType> damageAffinities;
+    private Set<Element> elementalResistances;
+    private Set<DamageType> damageResistances;
     private Set<IAblity> abilities;
 
     private int STR;
@@ -21,14 +23,17 @@ public class Weapon implements IStatSource {
 
     public Weapon(
         String name,
-        Element elementalAffinity, DamageType damageAffinity,
+        Set<Element> elementalAffinities, Set<DamageType> damageAffinities,
+        Set<Element> elementalResistances, Set<DamageType> damageResistances,
         Set<IAblity> abilities,
         int STR, int ART, int AGI, int DEF, int RES,
         int requiredSTR, int requiredART, int requiredAGI, int requiredDEF, int requiredRES
     ) {
         this.name = name;
-        this.elementalAffinity = elementalAffinity;
-        this.damageAffinity = damageAffinity;
+        this.elementalAffinities = elementalAffinities;
+        this.damageAffinities = damageAffinities;
+        this.elementalResistances = elementalResistances;
+        this.damageResistances = damageResistances;
         this.abilities = abilities;
 
         this.STR = STR;
@@ -45,8 +50,10 @@ public class Weapon implements IStatSource {
     }
 
     public String getName() { return this.name; }
-    public Element getElementalAffinity() { return this.elementalAffinity; }
-    public DamageType getDamageAffinity() { return this.damageAffinity; }
+    public Set<Element> getElementalAffinities() { return this.elementalAffinities; }
+    public Set<DamageType> getDamageAffinities() { return this.damageAffinities; }
+    public Set<Element> getElementalResistances() { return this.elementalResistances; }
+    public Set<DamageType> getDamageResistances() { return this.damageResistances; }
     public Set<IAblity> getAbilities() { return this.abilities; }
 
     public int getSTR() { return this.STR; }

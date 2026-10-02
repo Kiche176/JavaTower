@@ -25,7 +25,7 @@ public enum Affliction {
 
     private final AfflictionType afflictionType;
     private final int ticks;
-    private final double tickDamage; // MULTIPLIER FOR DAMAGE TICKS
+    private final double tickMultiplier; // MULTIPLIER FOR DAMAGE TICKS
     private final Element tickElement; // THE ELEMENT APPLIED ON EACH TICK
 
     
@@ -38,13 +38,13 @@ public enum Affliction {
     private final double debuffRES;
 
     public Affliction(
-        AfflictionType afflictionType; int ticks, double tickDamage, Element tickElement, 
+        AfflictionType afflictionType; int ticks, double tickMultiplier, Element tickElement, 
         double debuffSTR, double debuffART, double debuffAGI, double debuffDEF, double debuffRES
     ) {
         this.afflictionType = afflictionType;
         this.ticks = ticks;
         this.tickDamage = tickDamage;
-        this.tickElement = tickElement;
+        this.tickMultiplier = tickMultiplier;
         this.debuffSTR = debuffSTR;
         this.debuffART = debuffART;
         this.debuffAGI = debuffAGI;
@@ -60,8 +60,8 @@ public enum Affliction {
         return this.ticks;
     }
 
-    public double getTickDamage() {
-        return this.tickDamage;
+    public double getTickMultiplier() {
+        return this.tickMultiplier;
     }
 
     public Element getTickElement() {
