@@ -37,7 +37,10 @@ public enum Affliction {
     private final double debuffDEF;
     private final double debuffRES;
 
-    public Affliction(AfflictionType afflictionType; int ticks, double tickDamage, Element tickElement, double debuffSTR, double debuffART, double debuffAGI, double debuffDEF, double debuffRES) {
+    public Affliction(
+        AfflictionType afflictionType; int ticks, double tickDamage, Element tickElement, 
+        double debuffSTR, double debuffART, double debuffAGI, double debuffDEF, double debuffRES
+    ) {
         this.afflictionType = afflictionType;
         this.ticks = ticks;
         this.tickDamage = tickDamage;

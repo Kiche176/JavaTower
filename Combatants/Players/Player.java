@@ -10,17 +10,25 @@ public class Player extends Combatant {
         scanner = new Scanner(System.in);
     }
 
-    public Player(Job job, Weapon weapon, int STR, int ART, int AGI, int DEF, int RES) {
+    public Player(
+        Job job, Weapon weapon, 
+        int STR, int ART, int AGI, int DEF, int RES, 
+        int stamina, int mana, int health
+    ) {
         this.weapons = new ArrayList<>();
         scanner = new Scanner(System.in);
 
         setJob(job);
         addWeapon(weapon); equipWeapon(weapon);
-        this.STR = STR;
-        this.ART = ART;
-        this.AGI = AGI;
-        this.DEF = DEF;
-        this.RES = RES;
+        this.STR += STR;
+        this.ART += ART;
+        this.AGI += AGI;
+        this.DEF += DEF;
+        this.RES += RES;
+
+        levelStamina(stamina);
+        levelMana(mana);
+        levelHealth(health);
     }
 
     public void inputName() {

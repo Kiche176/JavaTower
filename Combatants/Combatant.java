@@ -4,26 +4,27 @@ import java.util.Set;
 public abstract class Combatant implements ILiveStatSource {
     protected String name;
     protected Job job;
-    protected int LVL;
+    protected int LVL = 1;
 
-    protected int STR;
-    protected int ART;
-    protected int AGI;
-    protected int DEF;
-    protected int RES;
+    protected int STR = 5;
+    protected int ART = 5;
+    protected int AGI = 5;
+    protected int DEF = 5;
+    protected int RES = 5;
 
 
-    protected int staminaStat;
-    protected int manaStat;
-    protected int healthStat;
+    protected int staminaStat = 5;
+    protected int manaStat = 5;
+    protected int healthStat = 10;
 
+    // NEED TO CREATE THE FORMULAS TO CONVERT STATS INTO QUANTITIES
     protected int maxStamina;
     protected int maxMana;
     protected int maxHealth;
 
-    protected int currentStamina;
-    protected int currentMana;
-    protected int currentHealth;    
+    protected int currentStamina = this.maxStamina;
+    protected int currentMana= this.maxMana;
+    protected int currentHealth = this.maxHealth;    
 
 
     Set<IAblity> abilities;
