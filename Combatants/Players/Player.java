@@ -97,11 +97,23 @@ public class Player extends Combatant {
         return false;
     }
 
+    private boolean weaponStatCheck(Weapon weapon) {
+        return (
+            this.STR >= weapon.getRequiredSTR() &&
+            this.ART >= weapon.getRequiredART() &&
+            this.AGI >= weapon.getRequiredAGI() &&
+            this.DEF >= weapon.getRequiredDEF() &&
+            this.RES >= weapon.getRequiredRES()
+        )
+    }
+
     public boolean equipWeapon(Weapon weapon) {
         for (Weapon w : this.weapons) {
             if (w.equals(weapon)) {
-                this.weapon = weapon;
-                return true;
+                if (weaponStatCheck(weapon)) {
+                    this.weapon = weapon;
+                    return true;
+                }
             }
         }
         return false;

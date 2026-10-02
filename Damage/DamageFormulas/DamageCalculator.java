@@ -52,7 +52,7 @@ public class DamageCalcuator {
             move);
     }
 
-    public double calcuateDamage(Combatant att, Combatant def, Move move) {
+    public static double calcuateDamage(Combatant att, Combatant def, Move move) {
         if (move.getElement() == Element.PHYSICAL) return physDamage(att, def, move);
         else return artsDamage(att, def, move);
     }
@@ -90,27 +90,27 @@ public class DamageCalcuator {
         }
     }
 
-    private double physTickDamage(Combatant att, Combatant def, Affliction affliction) {
+    private double physTickDamage(Combatant att, Combatant def) {
         return tickDamageFormula(
             att, att.getWeapon(), 
             att.getSTR(), att.getWeapon().getSTR(), 
             def, def.getWeapon(),
             def.getDEF(), def.getWeapon().getDEF(),
-            affliction);
+            def.getTickAffliction());
     }
 
-    private double artsTickDamage(Combatant att, Combatant def, Affliction affliction) {
+    private double artsTickDamage(Combatant att, Combatant def) {
         return tickDamageFormula(
             att, att.getWeapon(), 
             att.getART(), att.getWeapon().getART(), 
             def, def.getWeapon(),
             def.getRES(), def.getWeapon().getRES(),
-            affliction);
+            def.getTickAffliction());
     }
 
-    public double calcuateTickDamage(Combatant att, Combatant def, Affliction affliction) {
-        if (move.getElement() == Element.PHYSICAL) return physTickDamage(att, def, affliction);
-        else return artsTickDamage(att, def, affliction);
+    public static double calcuateTickDamage(Combatant att, Combatant def) {
+        if (move.getElement() == Element.PHYSICAL) return physTickDamage(att, def);
+        else return artsTickDamage(att, def);
     }
 
     // AREA DAMAGE
@@ -166,7 +166,7 @@ public class DamageCalcuator {
             move);
     }
 
-    public double calcuateAreaDamage(Combatant att, Combatant def, Move move) {
+    public static double calcuateAreaDamage(Combatant att, Combatant def, Move move) {
         if (move.getElement() == Element.PHYSICAL) return physAreaDamage(att, def, move);
         else return artsAreaDamage(att, def, move);
     }

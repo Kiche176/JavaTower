@@ -26,6 +26,9 @@ public abstract class Combatant implements ILiveStatSource {
     protected int currentMana= this.maxMana;
     protected int currentHealth = this.maxHealth;    
 
+    protected int ticksLeft;
+    protected Affliction tickAffliction;
+
 
     Set<IAblity> abilities;
     Set<Skill> skills;
@@ -94,5 +97,42 @@ public abstract class Combatant implements ILiveStatSource {
         replenishStamina();
         replenishMana();
         replenishHealth();
+    }
+
+    public void decreaseStamina(int amount) {
+        this.currentStamina -= amount;
+        if (this.currentStamina < 0) this.currentStamina = 0;
+    }
+    
+    public void decreaseMana(int amount) {
+        this.currentMana -= amount;
+        if (this.currentMana < 0) this.currentMana = 0;
+    }
+    
+    public void decreaseHealth(int amount) {
+        this.currentHealth -= amount;
+        if (this.currentHealth < 0) this.currentHealth = 0;
+    }
+
+
+
+    public void setTicks(int ticks) {
+        this.ticks = ticks;
+    }
+
+    public void decrementTicks() {
+        this.ticks--;
+    }
+
+    public int getTicks() {
+        return this.ticks;
+    }
+
+    public void setTickAffliction(Affliction affliction) {
+        this.tickAffliction = affliction;
+    }
+
+    public Affliction getTickAffliction() {
+        return this.tickAffliction;
     }
 }
