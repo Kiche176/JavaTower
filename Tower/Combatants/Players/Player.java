@@ -10,6 +10,19 @@ public class Player extends Combatant {
         scanner = new Scanner(System.in);
     }
 
+    public Player(Job job, Weapon weapon, int STR, int ART, int AGI, int DEF, int RES) {
+        this.weapons = new ArrayList<>();
+        scanner = new Scanner(System.in);
+
+        setJob(job);
+        addWeapon(weapon); equipWeapon(weapon);
+        this.STR = STR;
+        this.ART = ART;
+        this.AGI = AGI;
+        this.DEF = DEF;
+        this.RES = RES;
+    }
+
     public void inputName() {
         String ending = (this.job == null) ? "" : ", young " + this.job;
         String sentence = "What is your name" + ending + "? ";
@@ -25,41 +38,6 @@ public class Player extends Combatant {
                 this.name = name; break;
             }
         }
-    }
-
-    // Stat restoration / replenishment
-
-    public void restoreStamina(int amount) {
-        this.currentStamina += amount;
-        if (this.maxStamina < this.currentStamina) this.currentStamina = this.maxStamina;
-    }
-
-    public void replenishStamina() {
-        this.currentStamina = this.maxStamina;
-    }
-
-    public void restoreMana(int amount) {
-        this.currentMana += amount;
-        if (this.maxMana < this.currentMana) this.currentMana = this.maxMana;
-    }
-
-    public void replenishMana() {
-        this.currentMana = this.maxMana;
-    }
-
-    public void restoreHealth(int amount) {
-        this.currentHealth += amount;
-        if (this.maxHealth < this.currentHealth) this.currentHealth = this.maxHealth;
-    }
-
-    public void replenishHealth() {
-        this.currentHealth = this.maxHealth;
-    }
-
-    public void replenishStats() {
-        replenishStamina();
-        replenishMana();
-        replenishHealth();
     }
 
     // Levelling UP
@@ -93,7 +71,9 @@ public class Player extends Combatant {
     }
 
 
-    //
+    public void setJOb(Job job) {
+        this.job = job;
+    }
 
     public void addWeapon(Weapon weapon) {
         this.weapons.add(weapon);
@@ -144,19 +124,19 @@ public class Player extends Combatant {
         while (points > 0) {
             System.out.print("How many points would you like to allocate to " + statNames[i] + "? ");
             String ans = this.scanner.nextLine();
-            if (ans.equals("")) continue;
+            if (ans.isEmpty()) continue;
 
             int n;
             try {
                 n = Integer.parseInt(ans);
-            } catch (NumberFormatExcptionError e) {
+            } catch (NumberFormatExcption e) {
                 System.out.println("Please enter a valid number");
                 continue;
             }
 
             if (n < 0) {
                 System.out.println("Cannot allocate a negative amount of points");
-                continue
+                continue;
             }
             else if (n > points) {
                 System.out.println("You don't have that many points available.");

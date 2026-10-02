@@ -26,7 +26,7 @@ public class DamageCalcuator {
         double finalDamage = (atkStat * atkMultiplier) - (defStat * defMultiplier);
         double minDamage = (atkStat * 0.2);
 
-        if (defender.getJob() == Jobs.TANK) {
+        if (defender.getJob() == Job.TANK) {
             return (finalDamage > 0) ? finalDamage : 0;
         } else {
             return (finalDamage > minDamage) ? finalDamage : minDamage;

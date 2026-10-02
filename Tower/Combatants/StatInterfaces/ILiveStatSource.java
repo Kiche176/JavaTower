@@ -17,4 +17,7 @@ public interface ILiveStatSource extends IStatSource {
     public Set<IAblity> getAbilities();
     public Set<Skill> getSkills();
     public Set<Spell> getSpells();
+    
+    public Affliciton getAffliction();
+    public Weapon getWeapon();
 }

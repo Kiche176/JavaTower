@@ -1,0 +1,97 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract class Combatant implements ILiveStatSource {
+    protected String name;
+    protected Job job;
+    protected int LVL;
+
+    protected int STR;
+    protected int ART;
+    protected int AGI;
+    protected int DEF;
+    protected int RES;
+
+
+    protected int staminaStat;
+    protected int manaStat;
+    protected int healthStat;
+
+    protected int maxStamina;
+    protected int maxMana;
+    protected int maxHealth;
+
+    protected int currentStamina;
+    protected int currentMana;
+    protected int currentHealth;    
+
+
+    Set<IAblity> abilities;
+    Set<Skill> skills;
+    Set<Spell> spells;
+    Affliction currentAffliction = null;
+    Weapon weapon = null;
+
+    public String getName() { return this.name; }
+    public int getLVL() { return this.LVL; }
+    public int getSTR() { return this.STR; }
+    public int getART() { return this.ART; }
+    public int getAGI() { return this.AGI; }
+    public int getDEF() { return this.DEF; }
+    public int getRES() { return this.RES; }
+
+    public int getStaminaStat() { return this.staminaStat; }
+    public int getManaStat() { return this.manaStat; }
+    public int getHealthStat() {return this.healthStat; }
+
+    public int getMaxStamina() { return this.maxStamina; }
+    public int getMaxMana() { return this.maxMana; }
+    public int getMaxHealth() { return this.maxHealth; }
+
+    public int getCurrentStamina() { return this.currentStamina; }
+    public int getCurrentMana() { return this.currentMana; }
+    public int getCurrentHealth() { return this.currentHealth; }    
+
+
+    public Set<Move> getMoves() { return this.moves; }
+    public Set<Skill> getSkills() { return this.skills; }
+    public Set<Spell> getSpells() { return this.spells; }
+    
+    public Affliction getAffliction() { return this.affliction; }
+    public Weapon getWeapon() { return this.weapon; }
+
+    // Stat restoration / replenishment
+
+    public void restoreStamina(int amount) {
+        this.currentStamina += amount;
+        if (this.maxStamina < this.currentStamina) this.currentStamina = this.maxStamina;
+    }
+
+    public void replenishStamina() {
+        this.currentStamina = this.maxStamina;
+    }
+
+    public void restoreMana(int amount) {
+        this.currentMana += amount;
+        if (this.maxMana < this.currentMana) this.currentMana = this.maxMana;
+    }
+
+    public void replenishMana() {
+        this.currentMana = this.maxMana;
+    }
+
+    public void restoreHealth(int amount) {
+        this.currentHealth += amount;
+        if (this.maxHealth < this.currentHealth) this.currentHealth = this.maxHealth;
+    }
+
+    public void replenishHealth() {
+        this.currentHealth = this.maxHealth;
+    }
+
+    public void replenishStats() {
+        replenishStamina();
+        replenishMana();
+        replenishHealth();
+    }
+}
