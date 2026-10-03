@@ -8,20 +8,51 @@ public class Battle {
         this.scanner = new Scanner(System.in);
     }
 
+    private void speechLine(String s) {
+        System.out.print(s + " [PRESS ENTER]");
+        this.scanner.nextLine();
+    }
+
     private void battleIntro(Player player, List<Enemy> enemies) {
-        if (enemies.length == 1) {
-            System.out.print("There is 1 enemy. [PRESS ENTER]");
+        if (enemies.size() == 1) {
+            speechLine("There is 1 enemy.");
         } else {
-            System.out.print("There are " + enemies.length + " enemies. [PRESS ENTER]");
+            speechLine("There are " + enemies.size() + " enemies.");
         }
-        String enter = this.scanner.nextLine();
 
         for (Enemy e : enemies) {
-            System.out.print(
+            speechLine(
                 "Lv." + enemy.getLVL() + enemy.getName() +
-                " has " + enemy.getCurrentHealth() + " HP remaining. [PRESS ENTER]"
+                " has " + enemy.getCurrentHealth() + " HP remaining."
             );
         }
+    }
+
+    private List<Enemy> updateDoT(Player player, List<Enemy> enemies) {
+        List<Integer> toRemove = new ArrayList<>();
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+
+            if (enemy.getTicks() > 0) {
+                int damageDealt = (int) DamageCalculator.calculateTickDamage(player, enemy);
+                enemy.decreaseHealth(damageDealt);
+                speechLine(enemy);
+
+                if (enemy.getCurrentHealth() == 0) {
+                    // THEY DIE
+                    speechLine(enemy.getName().toUpperCase() + " has been defeated.");
+                    toRemove.add(i);
+                }
+
+                // check if they have no ticks left
+                enemy.decrementTicks();
+                if (enemy.getTicks() == 0) enemy.setTickAffliction(null);
+            }
+        }
+        for (int i = toRemove.size() - 1; i >= 0; i--) {
+            enemies.remove(toRemove.get(i));
+        }
+        return enemies;
     }
 
     public void battle(Player player, List<Enemy> enemies) {
@@ -32,24 +63,17 @@ public class Battle {
             
             // PLAYER'S TURN
             if (playerTurn) {
+
                 // CHECK ENEMY DOT TICKS
-                for (Enemy e : enemies) {
-                    if (enemy.getTicks() > 0) {
-                        int damageDealt = (int) DamageCalculator.calculateTickDamage(player, e);
-                        enemy.decreaseHealth(damageDealt);
-                        if (enemy.getCurrentHealth() == 0) {
-                            // THEY DIE
-                            continue;
-                        }
-                        // check if they have no ticks left
-                        enemy.decrementTicks()
-                        if (enemy.getTicks() == 0) enemy.setTickAffliction(null);
-                    }
-                }
-                // Select a target
+                enemies = updateDoT(player, enemies);
+                if (enemies.size() == 0) continue;
 
 
                 // Select an ability (extra stuff if aoe)
+
+
+
+                // Select a target
 
 
                 // Apply formula
@@ -57,5 +81,7 @@ public class Battle {
 
             }
         }
+
+        speechLine("CONGRATULATIONS!");
     }
 }
