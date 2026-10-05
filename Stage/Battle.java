@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.List;
+import java.util.Random;
+import java.util.StringBuilder;
 
 public class Battle {
     private Scanner scanner;
@@ -62,6 +64,75 @@ public class Battle {
         }
     }
 
+    private Ability selectPlayerAbility(Player p) {
+        Ability ability = null;
+        while (ability = null) {
+            System.out.println("Enter ability");
+            String s = this.stream.nextLine();
+            
+            for (Ability a : p.getAbilities()) {
+                if (a.getName().toLowerCase().equals(s.toLowerCase())) {
+                    ablilty = a;
+                }
+            }
+        }
+        return ability;
+    }
+
+    private Combatant selectPlayerTarget(List<Combatant> enemies) {
+        Combatant target = null;
+        StringBuilder enemyList = new StringBuilder("The enemies are: ");
+        for (int i = 0; i < enemies.size(); i++) {
+            enemyList.append(
+                "[" + (i+1) + "] " + enemies.get(i).getName() + 
+                " with " + enemies.get(i).getCurrentHP() + " HP remaining. "
+            );
+        }
+
+        while (true) {
+            speechLine(enemyList.toString());
+            System.out.print("Please enter the number of the enemy you wish to target: ");
+            String ans = this.scanner.nextLine();
+
+            int i;
+            try {
+                i = Integer.parseInt(ans);
+            }
+            catch (NumberFormatException e) {
+                speechLine("Please enter a valid Integer");
+                continue;
+            }
+            if (i < 1) {
+                speechLine("Please enter a positive Integer");
+                continue;
+            } else if (i > enemies.size()) {
+                speechLine("Please enter a valid Integer");
+                continue;
+            }
+            return enemies.get(i - 1);
+        }
+    }
+
+    /**
+     *  @param combatants - In this case the list of combatants is a duplicate list missing the primary target as 
+     *                      they take the full force of the attack rather than the AoE.
+     */
+    private List<Combatant> selectAreaTargets(Player p, List<Combatant> combatants, IAbility ability) {
+        if (ability.getTargetCount() - 1 >= combatants.size()) {
+            return combatants;
+        }
+
+        List<Combatant> ret = new ArrayList<>();
+        Random rand = new Random();
+
+        for (int i = 1; i < ability.getTargetCount(); i++) {
+            int j = rand.nextInt(combatants.size());
+            ret.add(combatants.get(j));
+            combatants.remove(j);
+        }
+        return ret;
+    }
+
     public void battle(Player player, List<Enemy> enemies) {
         boolean playerTurn = true;
         battleIntro();
@@ -77,13 +148,20 @@ public class Battle {
 
 
                 // Select an ability (extra stuff if aoe)
-
+                Ability abilitySelected = selectPlayerAbility(player);
 
 
                 // Select a target
+                if (ability instanceof Utility) {
+                    applyUtility(player, ability);
+                } else {
+                    selectPlayerTarget(enemies);
+                    // Apply formula
 
+                    
 
-                // Apply formula
+                }
+
 
 
             } 
