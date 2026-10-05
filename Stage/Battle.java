@@ -28,7 +28,7 @@ public class Battle {
         }
     }
 
-    private List<Enemy> updateDoT(Player player, List<Enemy> enemies) {
+    private void updateDoT(Player player, List<Enemy> enemies) {
         List<Integer> toRemove = new ArrayList<>();
         for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
@@ -52,7 +52,14 @@ public class Battle {
         for (int i = toRemove.size() - 1; i >= 0; i--) {
             enemies.remove(toRemove.get(i));
         }
-        return enemies;
+    }
+
+    private void applyUtility(Combatant c, Utility u) {
+        switch (u) {
+            case UtilityTypes.MEDITATE : c.restoreMana(c.getART() * u.getMultiplier());
+            case UtilityTypes.HEAL : c.restoreHealth(c.getART() * u.getMultiplier());
+            case UtilityTypes.GREATHEAL : c.restoreHealth(c.getART() * u.getMultiplier());
+        }
     }
 
     public void battle(Player player, List<Enemy> enemies) {
@@ -65,7 +72,7 @@ public class Battle {
             if (playerTurn) {
 
                 // CHECK ENEMY DOT TICKS
-                enemies = updateDoT(player, enemies);
+                updateDoT(player, enemies);
                 if (enemies.size() == 0) continue;
 
 
@@ -79,6 +86,9 @@ public class Battle {
                 // Apply formula
 
 
+            } 
+            else {
+                continue;
             }
         }
 

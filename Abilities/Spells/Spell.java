@@ -1,4 +1,4 @@
-public class Spell {
+public class Spell implements Ability {
     protected String name;
     protected Element element;
     protected double multiplier;

@@ -121,17 +121,17 @@ public class Player extends Combatant {
 
 
 
-    public void addAbility(IAbility ability) {
+    public void addAbility(Ability ability) {
         this.abilities.add(ability);
     }
 
-    public void addAbilities(Weapon[] abilities) {
+    public void addAbilities(Ability[] abilities) {
         for (Ability a : abilities) {
             this.abilities.add(a);
         }
     }
 
-    public void addAbilities(Collection<Weapon> abilities) {
+    public void addAbilities(Collection<Ability> abilities) {
         this.abilities.addAll(abilities);
     }
 

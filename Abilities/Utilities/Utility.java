@@ -1,4 +1,4 @@
-public class Utility { // SELF-TARGETING ABILITIES
+public class Utility implements Ability { // SELF-TARGETING ABILITIES
     protected String name;
     protected Element element;
     protected double multiplier;

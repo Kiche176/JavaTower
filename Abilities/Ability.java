@@ -1,4 +1,4 @@
-public interface IAbility {
+public interface Ability {
     public String getName();
     public Element getElement();
     public double getMultiplier();

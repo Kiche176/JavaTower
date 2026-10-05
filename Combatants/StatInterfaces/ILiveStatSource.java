@@ -14,7 +14,7 @@ public interface ILiveStatSource extends IStatSource {
     public int getCurrentHealth();    
 
 
-    public Set<IAblity> getAbilities();
+    public Set<Ablity> getAbilities();
     public Set<Skill> getSkills();
     public Set<Spell> getSpells();
     

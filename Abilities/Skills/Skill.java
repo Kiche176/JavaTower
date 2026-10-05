@@ -1,4 +1,4 @@
-public class Skill implements IAbility{
+public class Skill implements Ability {
     protected String name;
     protected Element element;
     protected double multiplier;

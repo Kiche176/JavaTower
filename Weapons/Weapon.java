@@ -7,7 +7,6 @@ public class Weapon implements IStatSource {
     private Set<DamageType> damageAffinities;
     private Set<Element> elementalResistances;
     private Set<DamageType> damageResistances;
-    private Set<IAblity> abilities;
 
     private int STR;
     private int ART;
@@ -25,7 +24,6 @@ public class Weapon implements IStatSource {
         String name,
         Set<Element> elementalAffinities, Set<DamageType> damageAffinities,
         Set<Element> elementalResistances, Set<DamageType> damageResistances,
-        Set<IAblity> abilities,
         int STR, int ART, int AGI, int DEF, int RES,
         int requiredSTR, int requiredART, int requiredAGI, int requiredDEF, int requiredRES
     ) {
@@ -54,7 +52,6 @@ public class Weapon implements IStatSource {
     public Set<DamageType> getDamageAffinities() { return this.damageAffinities; }
     public Set<Element> getElementalResistances() { return this.elementalResistances; }
     public Set<DamageType> getDamageResistances() { return this.damageResistances; }
-    public Set<IAblity> getAbilities() { return this.abilities; }
 
     public int getSTR() { return this.STR; }
     public int getART() { return this.ART; }

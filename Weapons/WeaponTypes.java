@@ -6,8 +6,8 @@ public class WeaponTypes {
 
     public static final Weapon UNARMED = new Weapon(
         "Unarmed",
-        null,
-        null,
+        null, null,
+        null, null, 
         Set.of(
             punch,
             kick,
@@ -20,8 +20,8 @@ public class WeaponTypes {
 
     public static final Weapon WOODEN_SWORD = new Weapon(
         "Wooden Sword",
-        null,
-        DamageType.SLASH,
+        null, DamageType.SLASH,
+        null, null, 
         Set.of(
             slash,
             stab,
@@ -35,8 +35,8 @@ public class WeaponTypes {
 
     public static final Weapon WOODEN_SHIELD = new Weapon(
         "Wooden Shield",
-        null,
-        DamageType.BLUNT,
+        null, DamageType.BLUNT,
+        null, null, 
         Set.of(
             bash,
             bonk,
@@ -49,8 +49,8 @@ public class WeaponTypes {
 
     public static final Weapon RUSTY_DAGGER = new Weapon(
         "Rusty Dagger",
-        null,
-        DamageType.PIERCE,
+        null, DamageType.PIERCE,
+        null, null, 
         Set.of(
             slash,
             stab,
@@ -62,8 +62,8 @@ public class WeaponTypes {
 
     public static final Weapon SPELLBOOK = new Weapon(
         "Spellbook",
-        null,
-        null,
+        null, null, 
+        null, null, 
         Set.of(
             bonk,
             ember,
@@ -83,8 +83,8 @@ public class WeaponTypes {
 
     public static final Weapon IRON_SWORD = new Weapon(
         "Iron Sword",
-        null,
-        DamageType.SLASH,
+        null, DamageType.SLASH,
+        null, null, 
         Set.of(
             slash,
             stab,
@@ -167,8 +167,8 @@ public class WeaponTypes {
 
     public static final Weapon CLUB = new Weapon(
         "Club",
-        null,
-        DamageType.BLUNT,
+        null, DamageType.BLUNT,
+        null, null, 
         Set.of(
             punch,
             kick,
@@ -181,8 +181,8 @@ public class WeaponTypes {
 
     public static final Weapon GRAND_STAFF = new Weapon(
         "Grand Staff",
-        null,
-        null,
+        null, null, 
+        null, null, 
         Set.of(
             bonk,
             ember,
