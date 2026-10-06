@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.StringBuilder;
@@ -22,9 +23,9 @@ public class Battle {
             speechLine("There are " + enemies.size() + " enemies.");
         }
 
-        for (Enemy e : enemies) {
+        for (Enemy enemy : enemies) {
             speechLine(
-                "Lv." + enemy.getLVL() + enemy.getName() +
+                "Lv." + enemy.getLVL() + " " + enemy.getName() +
                 " has " + enemy.getCurrentHealth() + " HP remaining."
             );
         }
@@ -38,7 +39,7 @@ public class Battle {
             if (enemy.getTicks() > 0) {
                 int damageDealt = (int) DamageCalculator.calculateTickDamage(player, enemy);
                 enemy.decreaseHealth(damageDealt);
-                speechLine(enemy);
+                speechLine(enemy.getName() + " has " + enemy.getHealth() + " HP remaining.");
 
                 if (enemy.getCurrentHealth() == 0) {
                     // THEY DIE
@@ -57,22 +58,20 @@ public class Battle {
     }
 
     private void applyUtility(Combatant c, Utility u) {
-        switch (u) {
-            case UtilityTypes.MEDITATE : c.restoreMana(c.getART() * u.getMultiplier());
-            case UtilityTypes.HEAL : c.restoreHealth(c.getART() * u.getMultiplier());
-            case UtilityTypes.GREATHEAL : c.restoreHealth(c.getART() * u.getMultiplier());
-        }
+        if (u instanceof UtilityTypes.MEDITATE) { c.restoreMana(c.getART() * u.getMultiplier()); }
+        else if (u instanceof UtilityTypes.HEAL) { c.restoreHealth(c.getART() * u.getMultiplier()); }
+        else if (u instanceof UtilityTypes.GREATHEAL) { c.restoreHealth(c.getART() * u.getMultiplier()); }
     }
 
     private Ability selectPlayerAbility(Player p) {
         Ability ability = null;
-        while (ability = null) {
+        while (ability == null) {
             System.out.println("Enter ability");
-            String s = this.stream.nextLine();
+            String s = this.scanner.nextLine();
             
             for (Ability a : p.getAbilities()) {
                 if (a.getName().toLowerCase().equals(s.toLowerCase())) {
-                    ablilty = a;
+                    ability = a;
                 }
             }
         }
@@ -80,7 +79,7 @@ public class Battle {
     }
 
     private Combatant selectPlayerTarget(List<Combatant> enemies) {
-        Combatant target = null;
+
         StringBuilder enemyList = new StringBuilder("The enemies are: ");
         for (int i = 0; i < enemies.size(); i++) {
             enemyList.append(
@@ -118,7 +117,7 @@ public class Battle {
      *  @param combatants - In this case the list of combatants is a duplicate list missing the primary target as 
      *                      they take the full force of the attack rather than the AoE.
      */
-    private List<Combatant> selectAreaTargets(Player p, List<Combatant> combatants, Ability ability) {
+    private List<Combatant> selectAreaTargets(List<Combatant> combatants, Ability ability) {
         if (ability.getTargetCount() - 1 >= combatants.size()) {
             return combatants;
         }
@@ -135,27 +134,69 @@ public class Battle {
     }
 
 
-    private void applyAbility(Player player, Combatant target, Ability ability) {
+    private boolean applySingleTargetAbility(Player player, Combatant target, Ability ability) {
         int dmg = (int) DamageCalculator.caluclateDamage(player, target, ability);
         
         // apply damage
         boolean targetAlive = target.reduceHealth(dmg);
         speechLine(target.getName() + " has " + target.getCurrentHealth() + " health left.");
-        if (!targetAlive) speechLine(target.getName() " + has been defeated."); return;
+        if (!targetAlive) {
+            speechLine(target.getName() + " has been defeated."); 
+            return false;
+        }
         
         // apply affliction
         Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
         target.setAffliction(aff);
-        speechLine(target.getName() + " has been afflicted with " + aff.getName());
-
+        if (!(aff == null)) speechLine(target.getName() + " has been afflicted with " + aff.getName());
+        return true;
     }
 
-    private void applyAreaAbility {}
+    private boolean applyAoE(Player player, Combatant target, Ability ability) {
+        int dmg = (int) DamageCalculator.caluclateAreaDamage(player, target, ability);
+        
+        // apply damage
+        boolean targetAlive = target.reduceHealth(dmg);
+        speechLine(target.getName() + " has " + target.getCurrentHealth() + " health left.");
+        if (!targetAlive) {
+            speechLine(target.getName() " + has been defeated."); 
+            return false;
+        }
+        
+        // apply affliction
+        Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
+        target.setAffliction(aff);
+        if (!(aff == null)) speechLine(target.getName() + " has been afflicted with " + aff.getName());
+        return true;
+    }
+
+    private void applyAreaAbility(Player player, Combatant mainTarget, List<Combatant> targets, Ability ability) {
+        List<Combatant> excluded = new ArrayList<>(targets);
+        excluded.remove(mainTarget);
+        List<Combatant> areaTargets = selectAreaTargets(excluded, ability);
+        List<Integer> toRemove = new ArrayList<>();
+
+        for (int i = 0; i < areaTargets.size(); i++) {
+            Combatant enemy = areaTargets.get(i);
+            boolean enemyAlive = applyAoE(player, enemy, ability);
+            if (!enemyAlive) toRemove.add(i); // the enemy died and needs to be removed from the list of combatants
+        }
+
+        for (int i = toRemove.size() - 1; i >= 0; i--) {
+            Combatant defeated = areaTargets(toRemove.get(i));
+            targets.remove(defeated);
+        }
+    }
+
+    private void applyAbility(Player player, Combatant target, List<Combatant> opponents, Ability ability) {
+        applySingleTargetAbility(player, target, ability);
+        if (ability.getTargetCount() > 1) applyAreaAbility(player, target, opponents, ability);
+    }
 
 
-    public void battle(Player player, List<Enemy> enemies) {
+    public void battle(Player player, List<Combatant> enemies) {
         boolean playerTurn = true;
-        battleIntro();
+        battleIntro(player, enemies);
 
         while (enemies.size() > 0 && player.getCurrentHealth() > 0) {
             
@@ -168,15 +209,15 @@ public class Battle {
 
 
                 // Select an ability (extra stuff if aoe)
-                Ability abilitySelected = selectPlayerAbility(player);
+                Ability ability = selectPlayerAbility(player);
 
 
                 // Select a target
                 if (ability instanceof Utility) {
                     applyUtility(player, ability);
                 } else {
-                    selectPlayerTarget(enemies);
-                    // App
+                    Combatant target = selectPlayerTarget(enemies);
+                    applyAbility(player, target, enemies, ability);
                 }
 
 
@@ -185,6 +226,7 @@ public class Battle {
             else {
                 continue;
             }
+            playerTurn = !playerTurn;
         }
 
         speechLine("CONGRATULATIONS!");
