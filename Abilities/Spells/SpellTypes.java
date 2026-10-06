@@ -1,25 +1,5 @@
 public class SpellTypes {
 
-    // Utility Spells
-
-    public static final Spell HEAL = new Spell(
-        "Heal",
-        null,
-        0,
-        1,
-        null,
-        10
-    );
-
-    public static final Spell MEDITATE = new Spell(
-        "Meditate",
-        null,
-        0,
-        1,
-        null,
-        0
-    );
-
     public static final Spell BONK = new Spell(
         "Bonk",
         Element.PHYSICAL,
@@ -28,16 +8,6 @@ public class SpellTypes {
         DamageType.BLUNT,
         0
     );
-
-    public static final Spell GREAT_HEAL = new Spell(
-        "Great Heal",
-        null,
-        0,
-        1,
-        null,
-        25
-    );
-
 
     // Beginner Spells
 

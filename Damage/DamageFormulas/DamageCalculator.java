@@ -3,16 +3,21 @@ public class DamageCalcuator {
     private double damageFormula(
         Combatant attacker, Weapon attackingWeapon, double attackerStat, double attackingWeaponStat, 
         Combatant defender, Weapon defensiveWeapon, double defenderStat, double defensiveWeaponStat,
-        Move move) {
+        Ability ability) {
         
         // OFFENSIVE CALCULATIONS
         int weaponAtk = (attackingWeapon != null) ? attackingWeaponStat : 0;
         double atkStat = attackerStat + weaponAtk;
         
         double atkLVLMultiplier = attacker.getLVL() / 10.0;
-        double atkMultiplier = moveMultiplier + atkLVLMultiplier;
-        if (attackingWeapon.getElementalAffinities().contains(move.getElement())) atkLVLMultiplier += 0.5;
-        if (attackingWeapon.getDamageAffinities().contains(move.getDamageType())) atkLVLMultiplier += 0.5;
+        double atkMultiplier = abilityMultiplier + atkLVLMultiplier;
+        if (attackingWeapon.getElementalAffinities().contains(ability.getElement())) atkLVLMultiplier += 0.5;
+        if (attackingWeapon.getDamageAffinities().contains(ability.getDamageType())) atkLVLMultiplier += 0.5;
+
+        // REACTIONS
+        Reaction rct = ReactionData.returnReaction(target.getAffliction(), ability.getElement().getAffliction());
+        if (rct != null) atkMultiplier *= rct.getMultiplier();
+
 
         // DEFENSIVE CALCULATIONS
         int weaponDef = (defensiveWeapon != null) ? defensiveWeaponStat : 0;
@@ -20,8 +25,8 @@ public class DamageCalcuator {
 
         double defLVLMultiplier = defender.getLVL() / 10.0;
         double defMultiplier = 1.0 + defLVLMultiplier; 
-        if (defensiveWeapon.getElementalResistances().contains(move.getElement())) defMultiplier += 0.5;
-        if (defensiveWeapon.getDamageResistances().contains(move.getDamageType())) defMultiplier += 0.5;
+        if (defensiveWeapon.getElementalResistances().contains(ability.getElement())) defMultiplier += 0.5;
+        if (defensiveWeapon.getDamageResistances().contains(ability.getDamageType())) defMultiplier += 0.5;
 
         // FINAL CALCULATIONS
         double finalDamage = (atkStat * atkMultiplier) - (defStat * defMultiplier);
@@ -34,27 +39,27 @@ public class DamageCalcuator {
         }
     }
 
-    private double physDamage(Combatant att, Combatant def, Move move) {
+    private double physDamage(Combatant att, Combatant def, Ability ability) {
         return damageFormula(
             att, att.getWeapon(), 
             att.getSTR(), att.getWeapon().getSTR(), 
             def, def.getWeapon(),
             def.getDEF(), def.getWeapon().getDEF(),
-            move);
+            ability);
     }
 
-    private double artsDamage(Combatant att, Combatant def, Move move) {
+    private double artsDamage(Combatant att, Combatant def, Ability ability) {
         return damageFormula(
             att, att.getWeapon(), 
             att.getART(), att.getWeapon().getART(), 
             def, def.getWeapon(),
             def.getRES(), def.getWeapon().getRES(),
-            move);
+            ability);
     }
 
-    public static double calcuateDamage(Combatant att, Combatant def, Move move) {
-        if (move.getElement() == Element.PHYSICAL) return physDamage(att, def, move);
-        else return artsDamage(att, def, move);
+    public static double calcuateDamage(Combatant att, Combatant def, Ability ability) {
+        if (ability.getElement() == Element.PHYSICAL) return physDamage(att, def, ability);
+        else return artsDamage(att, def, ability);
     }
 
     // TICK DAMAGE
@@ -70,6 +75,10 @@ public class DamageCalcuator {
         double atkLVLMultiplier = attacker.getLVL() / 10.0;
         double atkMultiplier = affliction.getTickMultiplier() + atkLVLMultiplier;
         if (attackingWeapon.getElementalAffinities().contains(affliction.getElement())) atkLVLMultiplier += 0.5;
+
+        // REACTIONS
+        Reaction rct = ReactionData.returnReaction(target.getAffliction(), affliction);
+        if (rct != null) atkMultiplier *= rct.getMultiplier();
 
         // DEFENSIVE CALCULATIONS
         int weaponDef = (defensiveWeapon != null) ? defensiveWeaponStat : 0;
@@ -109,7 +118,7 @@ public class DamageCalcuator {
     }
 
     public static double calcuateTickDamage(Combatant att, Combatant def) {
-        if (move.getElement() == Element.PHYSICAL) return physTickDamage(att, def);
+        if (ability.getElement() == Element.PHYSICAL) return physTickDamage(att, def);
         else return artsTickDamage(att, def);
     }
 
@@ -117,16 +126,20 @@ public class DamageCalcuator {
     private double areaDamageFormula(
         Combatant attacker, Weapon attackingWeapon, double attackerStat, double attackingWeaponStat, 
         Combatant defender, Weapon defensiveWeapon, double defenderStat, double defensiveWeaponStat,
-        Move move) {
+        Ability ability) {
         
         // OFFENSIVE CALCULATIONS
         int weaponAtk = (attackingWeapon != null) ? attackingWeaponStat : 0;
         double atkStat = attackerStat + weaponAtk;
         
         double atkLVLMultiplier = attacker.getLVL() / 10.0;
-        double atkMultiplier = moveMultiplier / 2 + atkLVLMultiplier;
-        if (attackingWeapon.getElementalAffinities().contains(move.getElement())) atkLVLMultiplier += 0.5;
-        if (attackingWeapon.getDamageAffinities().contains(move.getDamageType())) atkLVLMultiplier += 0.5;
+        double atkMultiplier = abilityMultiplier / 2 + atkLVLMultiplier;
+        if (attackingWeapon.getElementalAffinities().contains(ability.getElement())) atkLVLMultiplier += 0.5;
+        if (attackingWeapon.getDamageAffinities().contains(ability.getDamageType())) atkLVLMultiplier += 0.5;
+
+        // REACTIONS
+        Reaction rct = ReactionData.returnReaction(target.getAffliction(), ability.getElement().getAffliction());
+        if (rct != null) atkMultiplier *= rct.getMultiplier();
 
         // DEFENSIVE CALCULATIONS
         int weaponDef = (defensiveWeapon != null) ? defensiveWeaponStat : 0;
@@ -134,8 +147,8 @@ public class DamageCalcuator {
 
         double defLVLMultiplier = defender.getLVL() / 10.0;
         double defMultiplier = 1.0 + defLVLMultiplier; 
-        if (defensiveWeapon.getElementalResistances().contains(move.getElement())) defMultiplier += 0.5;
-        if (defensiveWeapon.getDamageResistances().contains(move.getDamageType())) defMultiplier += 0.5;
+        if (defensiveWeapon.getElementalResistances().contains(ability.getElement())) defMultiplier += 0.5;
+        if (defensiveWeapon.getDamageResistances().contains(ability.getDamageType())) defMultiplier += 0.5;
 
         // FINAL CALCULATIONS
         double finalDamage = (atkStat * atkMultiplier) - (defStat * defMultiplier);
@@ -148,27 +161,27 @@ public class DamageCalcuator {
         }
     }
 
-    private double physAreaDamage(Combatant att, Combatant def, Move move) {
+    private double physAreaDamage(Combatant att, Combatant def, Ability ability) {
         return areaDamageFormula(
             att, att.getWeapon(), 
             att.getSTR(), att.getWeapon().getSTR(), 
             def, def.getWeapon(),
             def.getDEF(), def.getWeapon().getDEF(),
-            move);
+            ability);
     }
 
-    private double artsAreaDamage(Combatant att, Combatant def, Move move) {
+    private double artsAreaDamage(Combatant att, Combatant def, Ability ability) {
         return areaDamageFormula(
             att, att.getWeapon(), 
             att.getART(), att.getWeapon().getART(), 
             def, def.getWeapon(),
             def.getRES(), def.getWeapon().getRES(),
-            move);
+            ability);
     }
 
-    public static double calcuateAreaDamage(Combatant att, Combatant def, Move move) {
-        if (move.getElement() == Element.PHYSICAL) return physAreaDamage(att, def, move);
-        else return artsAreaDamage(att, def, move);
+    public static double calcuateAreaDamage(Combatant att, Combatant def, Ability ability) {
+        if (ability.getElement() == Element.PHYSICAL) return physAreaDamage(att, def, ability);
+        else return artsAreaDamage(att, def, ability);
     }
 }
 

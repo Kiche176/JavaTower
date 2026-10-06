@@ -13,7 +13,7 @@ public enum Element {
         this.affliction = affliction;
     }
 
-    public Affliction getStatus() {
+    public Affliction getAffliction() {
         return affliction;
     }
 }

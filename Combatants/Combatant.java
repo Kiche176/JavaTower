@@ -30,7 +30,7 @@ public abstract class Combatant implements ILiveStatSource {
     protected Affliction tickAffliction;
 
 
-    Set<IAblity> abilities;
+    Set<Ablity> abilities;
     Set<Skill> skills;
     Set<Spell> spells;
     Affliction currentAffliction = null;
@@ -57,7 +57,7 @@ public abstract class Combatant implements ILiveStatSource {
     public int getCurrentHealth() { return this.currentHealth; }    
 
 
-    public Set<Move> getMoves() { return this.moves; }
+    public Set<Ability> getAbilities() { return this.abilities; }
     public Set<Skill> getSkills() { return this.skills; }
     public Set<Spell> getSpells() { return this.spells; }
     
@@ -71,8 +71,26 @@ public abstract class Combatant implements ILiveStatSource {
         if (this.maxStamina < this.currentStamina) this.currentStamina = this.maxStamina;
     }
 
+    public boolean reduceStamina(int amount) {
+        if (this.currentStamina < amount) {
+            return false;
+        } else {
+            this.currentStamina -= amount;
+            return true;
+        }
+    }
+
     public void replenishStamina() {
         this.currentStamina = this.maxStamina;
+    }
+
+    public boolean reduceMana(int amount) {
+        if (this.currentMana < amount) {
+            return false;
+        } else {
+            this.currentMana -= amount;
+            return true;
+        }
     }
 
     public void restoreMana(int amount) {
@@ -89,6 +107,16 @@ public abstract class Combatant implements ILiveStatSource {
         if (this.maxHealth < this.currentHealth) this.currentHealth = this.maxHealth;
     }
 
+    public boolean reduceHealth(int amount) {
+        if (this.currentHealth < amount) {
+            this.currentHealth = 0;
+            return false;
+        } else {
+            this.currentHealth -= amount;
+            return true;
+        }
+    }
+
     public void replenishHealth() {
         this.currentHealth = this.maxHealth;
     }
@@ -98,23 +126,7 @@ public abstract class Combatant implements ILiveStatSource {
         replenishMana();
         replenishHealth();
     }
-
-    public void decreaseStamina(int amount) {
-        this.currentStamina -= amount;
-        if (this.currentStamina < 0) this.currentStamina = 0;
-    }
     
-    public void decreaseMana(int amount) {
-        this.currentMana -= amount;
-        if (this.currentMana < 0) this.currentMana = 0;
-    }
-    
-    public void decreaseHealth(int amount) {
-        this.currentHealth -= amount;
-        if (this.currentHealth < 0) this.currentHealth = 0;
-    }
-
-
 
     public void setTicks(int ticks) {
         this.ticks = ticks;

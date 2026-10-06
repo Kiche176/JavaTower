@@ -102,6 +102,7 @@ public class Battle {
                 speechLine("Please enter a valid Integer");
                 continue;
             }
+
             if (i < 1) {
                 speechLine("Please enter a positive Integer");
                 continue;
@@ -117,7 +118,7 @@ public class Battle {
      *  @param combatants - In this case the list of combatants is a duplicate list missing the primary target as 
      *                      they take the full force of the attack rather than the AoE.
      */
-    private List<Combatant> selectAreaTargets(Player p, List<Combatant> combatants, IAbility ability) {
+    private List<Combatant> selectAreaTargets(Player p, List<Combatant> combatants, Ability ability) {
         if (ability.getTargetCount() - 1 >= combatants.size()) {
             return combatants;
         }
@@ -132,6 +133,25 @@ public class Battle {
         }
         return ret;
     }
+
+
+    private void applyAbility(Player player, Combatant target, Ability ability) {
+        int dmg = (int) DamageCalculator.caluclateDamage(player, target, ability);
+        
+        // apply damage
+        boolean targetAlive = target.reduceHealth(dmg);
+        speechLine(target.getName() + " has " + target.getCurrentHealth() + " health left.");
+        if (!targetAlive) speechLine(target.getName() " + has been defeated."); return;
+        
+        // apply affliction
+        Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
+        target.setAffliction(aff);
+        speechLine(target.getName() + " has been afflicted with " + aff.getName());
+
+    }
+
+    private void applyAreaAbility {}
+
 
     public void battle(Player player, List<Enemy> enemies) {
         boolean playerTurn = true;
@@ -156,10 +176,7 @@ public class Battle {
                     applyUtility(player, ability);
                 } else {
                     selectPlayerTarget(enemies);
-                    // Apply formula
-
-                    
-
+                    // App
                 }
 
 

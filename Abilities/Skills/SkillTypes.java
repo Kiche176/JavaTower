@@ -1,17 +1,5 @@
 public class SkillTypes {
 
-    // Utility Skills
-
-    public static final Skill SWITCH_WEAPON = new Skill(
-        "Switch",
-        null,
-        0,
-        1,
-        null,
-        0
-    );
-
-
     // Beginner Skills
 
     public static final Skill SLASH = new Skill(
