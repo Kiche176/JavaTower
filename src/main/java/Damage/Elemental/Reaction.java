@@ -7,7 +7,7 @@ public enum Reaction {
     ELECTRIFY("ELECTRIFIED", 1.1),
     GROUNDED("GROUNDED", 1.4),
     REVERSEGROUNDED("", 0.71),
-    SWIRL("SWIRLED", 1.2)
+    SWIRL("SWIRLED", 1.2);
 
     private final String name;
     private final double multiplier;

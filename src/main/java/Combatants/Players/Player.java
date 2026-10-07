@@ -104,7 +104,7 @@ public class Player extends Combatant {
             this.AGI >= weapon.getRequiredAGI() &&
             this.DEF >= weapon.getRequiredDEF() &&
             this.RES >= weapon.getRequiredRES()
-        )
+        );
     }
 
     public boolean equipWeapon(Weapon weapon) {

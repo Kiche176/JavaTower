@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.Set;
+package Combatants;
 
 public abstract class Combatant implements ILiveStatSource {
     protected String name;

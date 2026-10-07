@@ -1,7 +1,7 @@
 public enum Affliction {
     // BASIC AFFLICTIONS
     PHYSICAL(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
-    HOT(AfflictionType.BASIC, 0, 0, null 0, 0, 0, 0, 0),
+    HOT(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
     WET(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
     COLD(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
     ROCKY(AfflictionType.BASIC, 0, 0, null, 0, 0, 0, 0, 0),
@@ -38,7 +38,7 @@ public enum Affliction {
     private final double debuffRES;
 
     public Affliction(
-        AfflictionType afflictionType; int ticks, double tickMultiplier, Element tickElement, 
+        AfflictionType afflictionType, int ticks, double tickMultiplier, Element tickElement, 
         double debuffSTR, double debuffART, double debuffAGI, double debuffDEF, double debuffRES
     ) {
         this.afflictionType = afflictionType;

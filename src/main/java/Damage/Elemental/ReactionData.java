@@ -379,7 +379,7 @@ public class ReactionData {
     }
 
     public Reaction returnReaction(Affliction initial, Affliction trigger) {
-        if (initial == null) return null // Can't have a reaction with nothing initially applied
+        if (initial == null) return null; // Can't have a reaction with nothing initially applied
         
         ReactionResult res = this.reactions.get(new AfflictionPair(initial, trigger));
         return res.reaction();

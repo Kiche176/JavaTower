@@ -159,7 +159,7 @@ public class Battle {
         boolean targetAlive = target.reduceHealth(dmg);
         speechLine(target.getName() + " has " + target.getCurrentHealth() + " health left.");
         if (!targetAlive) {
-            speechLine(target.getName() " + has been defeated."); 
+            speechLine(target.getName() + " + has been defeated."); 
             return false;
         }
         
@@ -194,7 +194,7 @@ public class Battle {
     }
 
 
-    public void battle(Player player, List<Combatant> enemies) {
+    public void battle(Player player, List<Enemy> enemies) {
         boolean playerTurn = true;
         battleIntro(player, enemies);
 
