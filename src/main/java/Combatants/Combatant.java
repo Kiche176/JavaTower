@@ -1,6 +1,15 @@
-import java.util.HashSet;
-import java.util.Set;
 package Combatants;
+
+import java.util.Set;
+
+import StatInterfaces.*;
+import DamageSystems.Afflictions.*;
+import DamageSystems.Elements.*;
+import Abilities.*;
+import Abilities.Skills.*;
+import Abilities.Spells.*;
+import Abilities.Utilities.*;
+import Weapons.*;
 
 public abstract class Combatant implements ILiveStatSource {
     protected String name;
@@ -28,17 +37,20 @@ public abstract class Combatant implements ILiveStatSource {
     protected int currentHealth = this.maxHealth;    
 
     protected int ticksLeft;
-    protected Affliction tickAffliction;
+    protected Element tickElement;
 
 
-    Set<Ablity> abilities;
-    Set<Skill> skills;
-    Set<Spell> spells;
-    Affliction currentAffliction = null;
-    Weapon weapon = null;
+    protected Set<Ability> abilities;
+    protected Set<Skill> skills;
+    protected Set<Spell> spells;
+    protected Set<Utility> utilities;
+    protected Affliction affliction = null;
+    protected Weapon weapon = null;
 
     public String getName() { return this.name; }
+    public Job getJob() {return this.job; }
     public int getLVL() { return this.LVL; }
+
     public int getSTR() { return this.STR; }
     public int getART() { return this.ART; }
     public int getAGI() { return this.AGI; }
@@ -61,8 +73,10 @@ public abstract class Combatant implements ILiveStatSource {
     public Set<Ability> getAbilities() { return this.abilities; }
     public Set<Skill> getSkills() { return this.skills; }
     public Set<Spell> getSpells() { return this.spells; }
+    public Set<Utility> getUtilities() { return this.utilities; }
     
     public Affliction getAffliction() { return this.affliction; }
+    public void setAffliction(Affliction affliction) { this.affliction = affliction; }
     public Weapon getWeapon() { return this.weapon; }
 
     // Stat restoration / replenishment
@@ -130,22 +144,22 @@ public abstract class Combatant implements ILiveStatSource {
     
 
     public void setTicks(int ticks) {
-        this.ticks = ticks;
+        this.ticksLeft = ticks;
     }
 
     public void decrementTicks() {
-        this.ticks--;
+        this.ticksLeft--;
     }
 
     public int getTicks() {
-        return this.ticks;
+        return this.ticksLeft;
     }
 
-    public void setTickAffliction(Affliction affliction) {
-        this.tickAffliction = affliction;
+    public void setTickElement(Element element) {
+        this.tickElement = element;
     }
 
-    public Affliction getTickAffliction() {
-        return this.tickAffliction;
+    public Element getTickElement() {
+        return this.tickElement;
     }
 }

@@ -1,0 +1,23 @@
+package DamageSystems.Elements;
+
+import DamageSystems.Afflictions.*;
+
+public enum Element {
+    PHYSICAL(Affliction.PHYSICAL),
+    FIRE(Affliction.HOT),
+    WATER(Affliction.WET),
+    ICE(Affliction.COLD),
+    EARTH(Affliction.ROCKY),
+    WIND(Affliction.BREEZED),
+    THUNDER(Affliction.CHARGED);
+
+    private final Affliction affliction;
+
+    Element(Affliction affliction) {
+        this.affliction = affliction;
+    }
+
+    public Affliction getAffliction() {
+        return affliction;
+    }
+}

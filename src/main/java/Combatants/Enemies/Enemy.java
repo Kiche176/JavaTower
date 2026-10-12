@@ -1,17 +1,18 @@
-abstract class Enemy extends Combatant {
-    public abstract void setSTR(int lvl){};
-    public abstract void setART(int lvl){};
-    public abstract void setAGI(int lvl){};
-    public abstract void setDEF(int lvl){};
-    public abstract void setRES(int lvl){};
+package Combatants.Enemies;
 
-    public abstract void setStaminaStat(int lvl){};
-    public abstract void setManaStat(int lvl){};
-    public abstract void setHealthStat(int lvl){};
+import Combatants.*;
+
+abstract class Enemy extends Combatant {
+    public abstract void setSTR(int lvl);
+    public abstract void setART(int lvl);
+    public abstract void setAGI(int lvl);
+    public abstract void setDEF(int lvl);
+    public abstract void setRES(int lvl);
+
+    public abstract void setStaminaStat(int lvl);
+    public abstract void setManaStat(int lvl);
+    public abstract void setHealthStat(int lvl);
     
-    public abstract void initialiseStamina(){};
-    public abstract void initialiseMana(){};
-    public abstract void initialiseHealth(){};
 
     public void initialiseStamina() {
         this.maxStamina = this.staminaStat * 4;

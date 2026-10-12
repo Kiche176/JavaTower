@@ -1,1 +1,0 @@
-public record AfflictionPair (Status initial, Status trigger) {}

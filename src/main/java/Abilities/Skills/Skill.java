@@ -1,3 +1,8 @@
+package Abilities.Skills;
+
+import Abilities.*;
+import DamageSystems.Elements.*;
+
 public class Skill implements Ability {
     protected String name;
     protected Element element;
@@ -25,4 +30,20 @@ public class Skill implements Ability {
     public DamageType getDamageType() { return this.damageType; }
     public int getStaminaCost() { return this.staminaCost; }
     public int getManaCost() { return this.manaCost; }
+
+    @Override 
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Skill)) return false;
+        Skill skill = (Skill) obj;
+        return (
+            this.name == skill.getName() &&
+            this.element == skill.getElement() &&
+            this.multiplier == skill.getMultiplier() &&
+
+            this.targetCount == skill.getTargetCount() &&
+            this.damageType == skill.getDamageType() &&
+            this.staminaCost == skill.getStaminaCost() &&
+            this.manaCost == skill.getManaCost()
+        );
+    }
 }

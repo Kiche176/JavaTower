@@ -1,8 +1,22 @@
+package Stage;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.StringBuilder;
+import java.lang.StringBuilder;
+
+import Abilities.Ability;
+import Abilities.Skills.*;
+import Abilities.Spells.*;
+import Abilities.Utilities.*;
+import Combatants.Combatant;
+import Combatants.Players.Player;
+import DamageSystems.Afflictions.*;
+import DamageSystems.Elements.Element;
+import DamageSystems.Reactions.*;
+import DamageSystems.*;
+
 
 public class Battle {
     private Scanner scanner;
@@ -11,19 +25,19 @@ public class Battle {
         this.scanner = new Scanner(System.in);
     }
 
-    private void speechLine(String s) {
-        System.out.print(s + " [PRESS ENTER]");
+    private void speechLine(String statement) {
+        System.out.print(statement + " [PRESS ENTER]");
         this.scanner.nextLine();
     }
 
-    private void battleIntro(Player player, List<Enemy> enemies) {
+    private void battleIntro(Player player, List<Combatant> enemies) {
         if (enemies.size() == 1) {
             speechLine("There is 1 enemy.");
         } else {
             speechLine("There are " + enemies.size() + " enemies.");
         }
 
-        for (Enemy enemy : enemies) {
+        for (Combatant enemy : enemies) {
             speechLine(
                 "Lv." + enemy.getLVL() + " " + enemy.getName() +
                 " has " + enemy.getCurrentHealth() + " HP remaining."
@@ -31,15 +45,38 @@ public class Battle {
         }
     }
 
-    private void updateDoT(Player player, List<Enemy> enemies) {
+    private void statusStatement(Ability ability, Combatant combatant) {
+        if (ability.getElement() == Element.PHYSICAL) return;
+
+        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), ability.getElement().getAffliction());
+        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), ability.getElement().getAffliction());
+        if (rct != null) {
+            speechLine(combatant.getName() + " has been " + rct.getName());
+        } else if (aff != null) {
+            speechLine(combatant.getName() + " has been afflicted with " + aff.getName());
+        }
+    }
+
+    private void statusDoTStatement(Combatant combatant) {
+        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), combatant.getTickElement().getAffliction());
+        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), combatant.getTickElement().getAffliction());
+        if (rct != null) {
+            speechLine(combatant.getName() + " has been " + rct.getName());
+        } else {
+            speechLine(combatant.getName() + " has been afflicted with " + aff.getName());
+        }
+    }
+
+    private void updateDoT(Player player, List<Combatant> enemies) {
         List<Integer> toRemove = new ArrayList<>();
         for (int i = 0; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
+            Combatant enemy = enemies.get(i);
 
             if (enemy.getTicks() > 0) {
                 int damageDealt = (int) DamageCalculator.calculateTickDamage(player, enemy);
-                enemy.decreaseHealth(damageDealt);
-                speechLine(enemy.getName() + " has " + enemy.getHealth() + " HP remaining.");
+                statusDoTStatement(enemy);
+                enemy.reduceHealth(damageDealt);
+                speechLine(enemy.getName() + " has " + enemy.getCurrentHealth() + " HP remaining.");
 
                 if (enemy.getCurrentHealth() == 0) {
                     // THEY DIE
@@ -49,7 +86,7 @@ public class Battle {
 
                 // check if they have no ticks left
                 enemy.decrementTicks();
-                if (enemy.getTicks() == 0) enemy.setTickAffliction(null);
+                if (enemy.getTicks() == 0) enemy.setTickElement(null);
             }
         }
         for (int i = toRemove.size() - 1; i >= 0; i--) {
@@ -57,26 +94,35 @@ public class Battle {
         }
     }
 
-    private void applyUtility(Combatant c, Utility u) {
-        if (u instanceof UtilityTypes.MEDITATE) { c.restoreMana(c.getART() * u.getMultiplier()); }
-        else if (u instanceof UtilityTypes.HEAL) { c.restoreHealth(c.getART() * u.getMultiplier()); }
-        else if (u instanceof UtilityTypes.GREATHEAL) { c.restoreHealth(c.getART() * u.getMultiplier()); }
-    }
 
-    private Ability selectPlayerAbility(Player p) {
+    // ABILITY SELECTION
+
+    private Ability selectPlayerAbility(Player player) {
         Ability ability = null;
         while (ability == null) {
             System.out.println("Enter ability");
             String s = this.scanner.nextLine();
             
-            for (Ability a : p.getAbilities()) {
-                if (a.getName().toLowerCase().equals(s.toLowerCase())) {
+            for (Ability a : player.getAbilities()) {
+                if (s.toLowerCase().equals(a.getName().toLowerCase())) {
                     ability = a;
+                    if (player.getCurrentStamina() >= ability.getStaminaCost()) {
+                        speechLine("You do not have enough stamina to use this ability");
+                    } 
+                    else if (player.getCurrentMana() >= ability.getManaCost()) {
+                        speechLine("You do not have enough mana to use this ability");
+                    } 
+                    else {
+                        return ability;
+                    }
                 }
             }
         }
-        return ability;
+        return null;
     }
+
+
+    // TARGET SELECTION
 
     private Combatant selectPlayerTarget(List<Combatant> enemies) {
 
@@ -84,7 +130,7 @@ public class Battle {
         for (int i = 0; i < enemies.size(); i++) {
             enemyList.append(
                 "[" + (i+1) + "] " + enemies.get(i).getName() + 
-                " with " + enemies.get(i).getCurrentHP() + " HP remaining. "
+                " with " + enemies.get(i).getCurrentHealth() + " HP remaining. "
             );
         }
 
@@ -114,8 +160,11 @@ public class Battle {
     }
 
     /**
-     *  @param combatants - In this case the list of combatants is a duplicate list missing the primary target as 
+     * @param combatants - In this case the list of combatants is a duplicate list missing the primary target as 
      *                      they take the full force of the attack rather than the AoE.
+     * @param ability    - The AoE ability used.
+     * 
+     * @return The list of selected 
      */
     private List<Combatant> selectAreaTargets(List<Combatant> combatants, Ability ability) {
         if (ability.getTargetCount() - 1 >= combatants.size()) {
@@ -134,8 +183,10 @@ public class Battle {
     }
 
 
+    // ABILITY APPLICATION
+
     private boolean applySingleTargetAbility(Player player, Combatant target, Ability ability) {
-        int dmg = (int) DamageCalculator.caluclateDamage(player, target, ability);
+        int dmg = (int) DamageCalculator.calculateDamage(player, target, ability);
         
         // apply damage
         boolean targetAlive = target.reduceHealth(dmg);
@@ -153,7 +204,7 @@ public class Battle {
     }
 
     private boolean applyAoE(Player player, Combatant target, Ability ability) {
-        int dmg = (int) DamageCalculator.caluclateAreaDamage(player, target, ability);
+        int dmg = (int) DamageCalculator.calculateAreaDamage(player, target, ability);
         
         // apply damage
         boolean targetAlive = target.reduceHealth(dmg);
@@ -183,18 +234,26 @@ public class Battle {
         }
 
         for (int i = toRemove.size() - 1; i >= 0; i--) {
-            Combatant defeated = areaTargets(toRemove.get(i));
+            Combatant defeated = areaTargets.get(toRemove.get(i));
             targets.remove(defeated);
         }
     }
 
+    private void applyUtility(Combatant c, Utility u) {
+        if (u.equals(UtilityTypes.MEDITATE)) { c.restoreMana((int) (c.getART() * u.getMultiplier())); }
+        else if (u.equals(UtilityTypes.HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
+        else if (u.equals(UtilityTypes.GREAT_HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
+    }
+    
     private void applyAbility(Player player, Combatant target, List<Combatant> opponents, Ability ability) {
         applySingleTargetAbility(player, target, ability);
         if (ability.getTargetCount() > 1) applyAreaAbility(player, target, opponents, ability);
     }
 
 
-    public void battle(Player player, List<Enemy> enemies) {
+    // BATTLE
+
+    public void battle(Player player, List<Combatant> enemies) {
         boolean playerTurn = true;
         battleIntro(player, enemies);
 

@@ -1,8 +1,13 @@
-import java.util.HashSet;
+package Weapons;
+
 import java.util.Set;
+
+import StatInterfaces.*;
+import DamageSystems.Elements.*;
 
 public class Weapon implements IStatSource {
     private String name;
+    private WeaponType weaponType;
     private Set<Element> elementalAffinities;
     private Set<DamageType> damageAffinities;
     private Set<Element> elementalResistances;
@@ -21,18 +26,18 @@ public class Weapon implements IStatSource {
     private int requiredRES;
 
     public Weapon(
-        String name,
+        String name, WeaponType weaponType,
         Set<Element> elementalAffinities, Set<DamageType> damageAffinities,
         Set<Element> elementalResistances, Set<DamageType> damageResistances,
         int STR, int ART, int AGI, int DEF, int RES,
         int requiredSTR, int requiredART, int requiredAGI, int requiredDEF, int requiredRES
     ) {
         this.name = name;
+        this.weaponType = weaponType;
         this.elementalAffinities = elementalAffinities;
         this.damageAffinities = damageAffinities;
         this.elementalResistances = elementalResistances;
         this.damageResistances = damageResistances;
-        this.abilities = abilities;
 
         this.STR = STR;
         this.ART = ART;
@@ -48,6 +53,7 @@ public class Weapon implements IStatSource {
     }
 
     public String getName() { return this.name; }
+    public WeaponType getWeaponType() { return this.weaponType; }
     public Set<Element> getElementalAffinities() { return this.elementalAffinities; }
     public Set<DamageType> getDamageAffinities() { return this.damageAffinities; }
     public Set<Element> getElementalResistances() { return this.elementalResistances; }
@@ -67,7 +73,7 @@ public class Weapon implements IStatSource {
 
     @Override
     public boolean equals(Object obj) {
-        if (!obj instanceof Weapon) return false;
+        if (!(obj instanceof Weapon)) return false;
         Weapon w = (Weapon) obj;
         return w.getName().equals(this.name);
     }

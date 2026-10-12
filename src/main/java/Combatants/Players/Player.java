@@ -1,7 +1,16 @@
+package Combatants.Players;
+
 import java.util.Scanner;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+
+import Abilities.Ability;
+import Combatants.*;
+import Weapons.*;
 
 public class Player extends Combatant {
+
     List<Weapon> weapons;
     Scanner scanner;
 
@@ -61,25 +70,25 @@ public class Player extends Combatant {
     // add a stat manager class to calculate the amount of each stat you should have per lvl of that stat.
     // e.g. 5 levels of stamina may be 20 stamina but 10 may be 50 stamina.
     public void levelStamina(int points) {
-        int dif = this.maxStamina - this.currentStamina;
+        int difference = this.maxStamina - this.currentStamina;
         this.maxStamina += (points * 4); // the current formula
         this.currentStamina = this.maxStamina - difference;
     }
 
     public void levelMana(int points) {
-        int dif = this.maxMana - this.currentMana;
+        int difference = this.maxMana - this.currentMana;
         this.maxMana += (points * 4);
         this.currentMana = this.maxMana - difference;
     }
 
     public void levelHealth(int points) {
-        int dif = this.maxHealth - this.currentHealth;
+        int difference = this.maxHealth - this.currentHealth;
         this.maxHealth += (points * 4);
         this.currentHealth = this.maxHealth - difference;
     }
 
 
-    public void setJOb(Job job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 
@@ -88,7 +97,7 @@ public class Player extends Combatant {
     }
 
     public boolean removeWeapon(Weapon weapon) {
-        for (int i = 0; i < this.weapons.length(); i++) {
+        for (int i = 0; i < this.weapons.size(); i++) {
             if (this.weapons.get(i).equals(weapon)) {
                 this.weapons.remove(i);
                 return true;
@@ -120,7 +129,6 @@ public class Player extends Combatant {
     }
 
 
-
     public void addAbility(Ability ability) {
         this.abilities.add(ability);
     }
@@ -149,7 +157,7 @@ public class Player extends Combatant {
             int n;
             try {
                 n = Integer.parseInt(ans);
-            } catch (NumberFormatExcption e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number");
                 continue;
             }

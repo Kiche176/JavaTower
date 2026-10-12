@@ -1,5 +1,30 @@
+package Abilities.Skills;
+
+import DamageSystems.Elements.*;
+
 public class SkillTypes {
 
+    // Default Skills
+
+    public static final Skill PUNCH = new Skill(
+        "Punch",
+        Element.PHYSICAL,
+        1,
+        1,
+        DamageType.BLUNT,
+        5
+    );
+
+    public static final Skill KICK = new Skill(
+        "Kick",
+        Element.PHYSICAL,
+        1,
+        1,
+        DamageType.BLUNT,
+        5
+    );
+
+    
     // Beginner Skills
 
     public static final Skill SLASH = new Skill(
@@ -42,24 +67,6 @@ public class SkillTypes {
         "Bonk",
         Element.PHYSICAL,
         2,
-        1,
-        DamageType.BLUNT,
-        5
-    );
-
-    public static final Skill PUNCH = new Skill(
-        "Punch",
-        Element.PHYSICAL,
-        1,
-        1,
-        DamageType.BLUNT,
-        5
-    );
-
-    public static final Skill KICK = new Skill(
-        "Kick",
-        Element.PHYSICAL,
-        1,
         1,
         DamageType.BLUNT,
         5

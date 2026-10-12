@@ -1,3 +1,7 @@
+package Abilities;
+
+import DamageSystems.Elements.*;
+
 public interface Ability {
     public String getName();
     public Element getElement();

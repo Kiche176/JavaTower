@@ -1,1 +1,0 @@
-public record ReactionResult (Reaction reaction, Affliction affliction) {}

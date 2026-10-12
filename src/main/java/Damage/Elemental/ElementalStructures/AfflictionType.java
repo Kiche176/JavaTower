@@ -1,5 +1,0 @@
-public enum AfflictionType {
-    BASIC,
-    DOUBLE,
-    ADVANCED
-}
