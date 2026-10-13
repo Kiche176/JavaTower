@@ -1,6 +1,6 @@
 package Abilities.Spells;
 
-import Damage
+import DamageSystems.Elements.*;
 public class SpellTypes {
 
     public static final Spell BONK = new Spell(

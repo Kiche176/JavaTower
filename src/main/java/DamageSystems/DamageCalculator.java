@@ -76,19 +76,17 @@ public class DamageCalculator {
     private static double tickDamageFormula(
         Combatant attacker, Weapon attackingWeapon, double attackerStat, double attackingWeaponStat, 
         Combatant defender, Weapon defensiveWeapon, double defenderStat, double defensiveWeaponStat,
-        Element element, Affliction affliction
+        Element element
     ) {
         // OFFENSIVE CALCULATIONS
         double weaponAtk = (attackingWeapon != null) ? attackingWeaponStat : 0;
         double atkStat = attackerStat + weaponAtk / 2;
         
         double atkLVLMultiplier = attacker.getLVL() / 10.0;
-        double atkMultiplier = affliction.getTickMultiplier() + atkLVLMultiplier;
+        double atkMultiplier = defender.getAffliction().getTickMultiplier() + atkLVLMultiplier;
         if (attackingWeapon.getElementalAffinities().contains(element)) atkLVLMultiplier += 0.5;
 
-        // REACTIONS
-        Reaction rct = ReactionData.returnReaction(defender.getAffliction(), affliction);
-        if (rct != null) atkMultiplier *= rct.getMultiplier();
+        // DAMAGE TICKS CANNOT APPLY REACTIONS INHERENTLY
 
         // DEFENSIVE CALCULATIONS
         double weaponDef = (defensiveWeapon != null) ? defensiveWeaponStat : 0;
@@ -109,27 +107,27 @@ public class DamageCalculator {
         }
     }
 
-    private static double physTickDamage(Combatant att, Combatant def, Affliction affliction) {
+    private static double physTickDamage(Combatant att, Combatant def) {
         return tickDamageFormula(
             att, att.getWeapon(), 
             att.getSTR(), att.getWeapon().getSTR(), 
             def, def.getWeapon(),
             def.getDEF(), def.getWeapon().getDEF(),
-            def.getTickElement(), affliction);
+            def.getTickElement());
     }
 
-    private static double artsTickDamage(Combatant att, Combatant def, Affliction affliction) {
+    private static double artsTickDamage(Combatant att, Combatant def) {
         return tickDamageFormula(
             att, att.getWeapon(), 
             att.getART(), att.getWeapon().getART(), 
             def, def.getWeapon(),
             def.getRES(), def.getWeapon().getRES(),
-            def.getTickElement(), affliction);
+            def.getTickElement());
     }
 
-    public static double calculateTickDamage(Combatant att, Combatant def, Affliction affliction) {
-        if (def.getTickElement() == Element.PHYSICAL) return physTickDamage(att, def, affliction);
-        else return artsTickDamage(att, def, affliction);
+    public static double calculateTickDamage(Combatant att, Combatant def) {
+        if (def.getTickElement() == Element.PHYSICAL) return physTickDamage(att, def);
+        else return artsTickDamage(att, def);
     }
 
     // AREA DAMAGE

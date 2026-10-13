@@ -45,24 +45,14 @@ public class Battle {
         }
     }
 
-    private void statusStatement(Ability ability, Combatant combatant) {
-        if (ability.getElement() == Element.PHYSICAL) return;
+    private void statusStatement(Combatant combatant, Affliction trigger) {
+        
+        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), trigger);
+        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), trigger);
 
-        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), ability.getElement().getAffliction());
-        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), ability.getElement().getAffliction());
         if (rct != null) {
             speechLine(combatant.getName() + " has been " + rct.getName());
         } else if (aff != null) {
-            speechLine(combatant.getName() + " has been afflicted with " + aff.getName());
-        }
-    }
-
-    private void statusDoTStatement(Combatant combatant) {
-        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), combatant.getTickElement().getAffliction());
-        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), combatant.getTickElement().getAffliction());
-        if (rct != null) {
-            speechLine(combatant.getName() + " has been " + rct.getName());
-        } else {
             speechLine(combatant.getName() + " has been afflicted with " + aff.getName());
         }
     }
@@ -74,7 +64,7 @@ public class Battle {
 
             if (enemy.getTicks() > 0) {
                 int damageDealt = (int) DamageCalculator.calculateTickDamage(player, enemy);
-                statusDoTStatement(enemy);
+                statusStatement(enemy, enemy.getTickElement().getAffliction());
                 enemy.reduceHealth(damageDealt);
                 speechLine(enemy.getName() + " has " + enemy.getCurrentHealth() + " HP remaining.");
 
