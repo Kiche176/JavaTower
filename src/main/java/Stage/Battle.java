@@ -7,13 +7,10 @@ import java.util.Random;
 import java.lang.StringBuilder;
 
 import Abilities.Ability;
-import Abilities.Skills.*;
-import Abilities.Spells.*;
 import Abilities.Utilities.*;
 import Combatants.Combatant;
 import Combatants.Players.Player;
 import DamageSystems.Afflictions.*;
-import DamageSystems.Elements.Element;
 import DamageSystems.Reactions.*;
 import DamageSystems.*;
 
@@ -30,7 +27,7 @@ public class Battle {
         this.scanner.nextLine();
     }
 
-    private void battleIntro(Player player, List<Combatant> enemies) {
+    private void enemyIntro(List<Combatant> enemies) {
         if (enemies.size() == 1) {
             speechLine("There is 1 enemy.");
         } else {
@@ -45,15 +42,19 @@ public class Battle {
         }
     }
 
-    private void statusStatement(Combatant combatant, Affliction trigger) {
+    private void statusStatement(Combatant target, Affliction trigger) {
         
-        Reaction rct = ReactionData.returnReaction(combatant.getAffliction(), trigger);
-        Affliction aff = ReactionData.returnAffliction(combatant.getAffliction(), trigger);
+        Reaction rct = ReactionData.returnReaction(target.getAffliction(), trigger);
+        Affliction aff = ReactionData.returnAffliction(target.getAffliction(), trigger);
 
         if (rct != null) {
-            speechLine(combatant.getName() + " has been " + rct.getName());
+            speechLine(target.getName() + " has been " + rct.getName());
         } else if (aff != null) {
-            speechLine(combatant.getName() + " has been afflicted with " + aff.getName());
+            if (aff == Affliction.SUSTAIN) {
+                speechLine(target.getName() + " is still afflicted with " + target.getAffliction());
+            } else {
+                speechLine(target.getName() + " has been afflicted with " + aff.getName());
+            }
         }
     }
 
@@ -178,18 +179,20 @@ public class Battle {
     private boolean applySingleTargetAbility(Player player, Combatant target, Ability ability) {
         int dmg = (int) DamageCalculator.calculateDamage(player, target, ability);
         
-        // apply damage
+        // APPLY DAMAGE
         boolean targetAlive = target.reduceHealth(dmg);
         speechLine(target.getName() + " has " + target.getCurrentHealth() + " health left.");
+
         if (!targetAlive) {
             speechLine(target.getName() + " has been defeated."); 
             return false;
         }
         
-        // apply affliction
+        // APPLY AFFLICTION
+
         Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
+        statusStatement(target, ability.getElement().getAffliction());
         target.setAffliction(aff);
-        if (!(aff == null)) speechLine(target.getName() + " has been afflicted with " + aff.getName());
         return true;
     }
 
@@ -245,7 +248,7 @@ public class Battle {
 
     public void battle(Player player, List<Combatant> enemies) {
         boolean playerTurn = true;
-        battleIntro(player, enemies);
+        enemyIntro(enemies);
 
         while (enemies.size() > 0 && player.getCurrentHealth() > 0) {
             
@@ -263,14 +266,11 @@ public class Battle {
 
                 // Select a target
                 if (ability instanceof Utility) {
-                    applyUtility(player, ability);
+                    applyUtility(player, (Utility) ability);
                 } else {
                     Combatant target = selectPlayerTarget(enemies);
                     applyAbility(player, target, enemies, ability);
                 }
-
-
-
             } 
             else {
                 continue;

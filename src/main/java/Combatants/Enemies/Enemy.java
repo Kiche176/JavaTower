@@ -2,7 +2,22 @@ package Combatants.Enemies;
 
 import Combatants.*;
 
-abstract class Enemy extends Combatant {
+public abstract class Enemy extends Combatant {
+    
+    public Enemy(int lvl) {
+        setSTR(lvl);
+        setART(lvl);
+        setAGI(lvl);
+        setDEF(lvl);
+        setRES(lvl);
+
+        setStaminaStat(lvl);
+        setManaStat(lvl);
+        setHealthStat(lvl);
+
+        initaliseStats();
+    }
+
     public abstract void setSTR(int lvl);
     public abstract void setART(int lvl);
     public abstract void setAGI(int lvl);
@@ -34,4 +49,5 @@ abstract class Enemy extends Combatant {
         initialiseMana();
         initialiseHealth();
     }
+    
 }

@@ -15,19 +15,6 @@ public class ReactionData {
         Affliction.BREEZED,
         Affliction.CHARGED
     };
-
-    private static final Affliction[] doubleAfflictions = {
-        Affliction.BURNING,
-        Affliction.DROWNING,
-        Affliction.FROSTY,
-        Affliction.STUNNED
-    };
-
-    private static final Affliction[] AdvancedAfflictions = {
-        Affliction.FREEZING,
-        Affliction.SWAMPED,
-        Affliction.ELECTRIFIED
-    };
     
     private static Map<AfflictionPair, ReactionResult> reactions = new HashMap<>();
 
