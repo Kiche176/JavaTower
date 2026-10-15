@@ -11,7 +11,7 @@ import Abilities.Spells.*;
 import Abilities.Utilities.*;
 import Weapons.*;
 
-public abstract class Combatant implements ILiveStatSource {
+public abstract class Combatant implements IStatSource {
     protected String name;
     protected Job job;
     protected int LVL = 1;
@@ -40,12 +40,9 @@ public abstract class Combatant implements ILiveStatSource {
     protected Element tickElement;
 
 
-    protected Set<Ability> abilities;
-    protected Set<Skill> skills;
-    protected Set<Spell> spells;
-    protected Set<Utility> utilities;
+    protected Set<Ability> abilities = Set.of(Utilities.SKIP, Skills.PUNCH, Skills.KICK);
     protected Affliction affliction = null;
-    protected Weapon weapon = null;
+    protected Weapon weapon = Weapons.UNARMED;
 
     public String getName() { return this.name; }
     public Job getJob() {return this.job; }
@@ -71,9 +68,6 @@ public abstract class Combatant implements ILiveStatSource {
 
 
     public Set<Ability> getAbilities() { return this.abilities; }
-    public Set<Skill> getSkills() { return this.skills; }
-    public Set<Spell> getSpells() { return this.spells; }
-    public Set<Utility> getUtilities() { return this.utilities; }
     
     public Affliction getAffliction() { return this.affliction; }
     public void setAffliction(Affliction affliction) { this.affliction = affliction; }
@@ -81,13 +75,20 @@ public abstract class Combatant implements ILiveStatSource {
 
     // Stat restoration / replenishment
 
-    public void restoreStamina(int amount) {
-        this.currentStamina += amount;
-        if (this.maxStamina < this.currentStamina) this.currentStamina = this.maxStamina;
+    public boolean restoreStamina(int amount) {
+        if (amount < 0) {
+            return false;
+        } else {
+            this.currentStamina += amount;
+            if (this.maxStamina < this.currentStamina) this.currentStamina = this.maxStamina;
+            return true;
+        }
     }
 
     public boolean reduceStamina(int amount) {
-        if (this.currentStamina < amount) {
+        if (amount < 0) {
+            return false;
+        } else if (this.currentStamina < amount) {
             return false;
         } else {
             this.currentStamina -= amount;
@@ -100,7 +101,9 @@ public abstract class Combatant implements ILiveStatSource {
     }
 
     public boolean reduceMana(int amount) {
-        if (this.currentMana < amount) {
+        if (amount < 0) {
+            return false;
+        } else if (this.currentMana < amount) {
             return false;
         } else {
             this.currentMana -= amount;
@@ -108,22 +111,34 @@ public abstract class Combatant implements ILiveStatSource {
         }
     }
 
-    public void restoreMana(int amount) {
-        this.currentMana += amount;
-        if (this.maxMana < this.currentMana) this.currentMana = this.maxMana;
+    public boolean restoreMana(int amount) {
+        if (amount < 0) {
+            return false;
+        } else {
+            this.currentMana += amount;
+            if (this.maxMana < this.currentMana) this.currentMana = this.maxMana;
+            return true;
+        }
     }
 
     public void replenishMana() {
         this.currentMana = this.maxMana;
     }
 
-    public void restoreHealth(int amount) {
-        this.currentHealth += amount;
-        if (this.maxHealth < this.currentHealth) this.currentHealth = this.maxHealth;
+    public boolean restoreHealth(int amount) {
+        if (amount < 0) {
+            return false;
+        } else {
+            this.currentHealth += amount;
+            if (this.maxHealth < this.currentHealth) this.currentHealth = this.maxHealth;
+            return true;
+        }  
     }
 
     public boolean reduceHealth(int amount) {
-        if (this.currentHealth < amount) {
+        if (amount < 0) {
+            return false;
+        } else if (this.currentHealth < amount) {
             this.currentHealth = 0;
             return false;
         } else {
@@ -143,20 +158,17 @@ public abstract class Combatant implements ILiveStatSource {
     }
     
 
-    public void setTicks(int ticks) {
+    public void setTicks(int ticks, Element tickElement) {
         this.ticksLeft = ticks;
     }
 
     public void decrementTicks() {
-        this.ticksLeft--;
+        if (this.ticksLeft > 0) this.ticksLeft--;
+        if (this.ticksLeft == 0) this.tickElement = null;
     }
 
     public int getTicks() {
         return this.ticksLeft;
-    }
-
-    public void setTickElement(Element element) {
-        this.tickElement = element;
     }
 
     public Element getTickElement() {

@@ -118,11 +118,9 @@ public class Player extends Combatant {
 
     public boolean equipWeapon(Weapon weapon) {
         for (Weapon w : this.weapons) {
-            if (w.equals(weapon)) {
-                if (weaponStatCheck(weapon)) {
-                    this.weapon = weapon;
-                    return true;
-                }
+            if (w.equals(weapon) && weaponStatCheck(weapon)) {
+                this.weapon = weapon;
+                return true;
             }
         }
         return false;

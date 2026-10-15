@@ -1,5 +1,6 @@
 package Weapons;
 
+import java.util.Objects;
 import java.util.Set;
 
 import StatInterfaces.*;
@@ -73,8 +74,26 @@ public class Weapon implements IStatSource {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
         if (!(obj instanceof Weapon)) return false;
-        Weapon w = (Weapon) obj;
-        return w.getName().equals(this.name);
+
+        Weapon weapon = (Weapon) obj;
+
+        return this.name.equals(weapon.getName())
+            && this.weaponType == weapon.weaponType
+            && Objects.equals(this.elementalAffinities, weapon.elementalAffinities)
+            && Objects.equals(this.damageAffinities, weapon.damageAffinities)
+            && Objects.equals(this.elementalResistances, weapon.elementalResistances)
+            && Objects.equals(this.damageResistances, weapon.damageResistances)
+            && this.STR == weapon.STR
+            && this.ART == weapon.ART
+            && this.AGI == weapon.AGI
+            && this.DEF == weapon.DEF
+            && this.RES == weapon.RES
+            && this.requiredSTR == weapon.requiredSTR
+            && this.requiredART == weapon.requiredART
+            && this.requiredAGI == weapon.requiredAGI
+            && this.requiredDEF == weapon.requiredDEF
+            && this.requiredRES == weapon.requiredRES;
     }
 }

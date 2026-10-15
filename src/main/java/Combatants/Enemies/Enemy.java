@@ -4,7 +4,7 @@ import Combatants.*;
 
 public abstract class Enemy extends Combatant {
     
-    public Enemy(int lvl) {
+    protected  final void initialise(int lvl) {
         setSTR(lvl);
         setART(lvl);
         setAGI(lvl);

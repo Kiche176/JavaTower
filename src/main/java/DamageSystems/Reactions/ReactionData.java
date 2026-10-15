@@ -16,7 +16,7 @@ public class ReactionData {
         Affliction.CHARGED
     };
     
-    private static Map<AfflictionPair, ReactionResult> reactions = new HashMap<>();
+    private static final Map<AfflictionPair, ReactionResult> reactions = new HashMap<>();
 
     static {
         initialiseReactionMap();

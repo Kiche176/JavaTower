@@ -2,7 +2,8 @@ package Combatants.Enemies;
 
 import Combatants.Job;
 
-public class TestDummy extends Enemy{
+public class TestDummy extends Enemy {
+    
     public TestDummy(int lvl) {
         this.name = "Dummy";
         this.job = Job.TANK;

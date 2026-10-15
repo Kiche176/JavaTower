@@ -7,6 +7,7 @@ C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Abilities\Utilities\Utili
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Abilities\Utilities\UtilityTypes.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Combatant.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Enemies\Enemy.java
+C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Enemies\TestDummy.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Job.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Players\Player.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Combatants\Players\PlayerJobs.java
@@ -19,6 +20,7 @@ C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\DamageSystems\Elements\El
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\DamageSystems\Reactions\Reaction.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\DamageSystems\Reactions\ReactionData.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\DamageSystems\Reactions\ReactionResult.java
+C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Main.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\Stage\Battle.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\StatInterfaces\ILiveStatSource.java
 C:\Users\keste\OneDrive\GitHub\JavaTower\src\main\java\StatInterfaces\IStatSource.java

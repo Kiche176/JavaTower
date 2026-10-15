@@ -18,15 +18,13 @@ public class Skill extends Ability {
     public boolean equals(Object obj) {
         if (!(obj instanceof Skill)) return false;
         Skill skill = (Skill) obj;
-        return (
-            this.name == skill.getName() &&
-            this.element == skill.getElement() &&
-            this.multiplier == skill.getMultiplier() &&
+        return this.name.equals(skill.getName()) 
+            && this.element == skill.getElement() 
+            && this.multiplier == skill.getMultiplier()
 
-            this.targetCount == skill.getTargetCount() &&
-            this.damageType == skill.getDamageType() &&
-            this.staminaCost == skill.getStaminaCost() &&
-            this.manaCost == skill.getManaCost()
-        );
+            && this.targetCount == skill.getTargetCount()
+            && this.damageType == skill.getDamageType()
+            && this.staminaCost == skill.getStaminaCost()
+            && this.manaCost == skill.getManaCost();
     }
 }

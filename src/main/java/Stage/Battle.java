@@ -77,7 +77,6 @@ public class Battle {
 
                 // check if they have no ticks left
                 enemy.decrementTicks();
-                if (enemy.getTicks() == 0) enemy.setTickElement(null);
             }
         }
         for (int i = toRemove.size() - 1; i >= 0; i--) {
@@ -97,10 +96,10 @@ public class Battle {
             for (Ability a : player.getAbilities()) {
                 if (s.toLowerCase().equals(a.getName().toLowerCase())) {
                     ability = a;
-                    if (player.getCurrentStamina() >= ability.getStaminaCost()) {
+                    if (player.getCurrentStamina() < ability.getStaminaCost()) {
                         speechLine("You do not have enough stamina to use this ability");
                     } 
-                    else if (player.getCurrentMana() >= ability.getManaCost()) {
+                    else if (player.getCurrentMana() < ability.getManaCost()) {
                         speechLine("You do not have enough mana to use this ability");
                     } 
                     else {
@@ -176,7 +175,7 @@ public class Battle {
 
     // ABILITY APPLICATION
 
-    private boolean applySingleTargetAbility(Player player, Combatant target, Ability ability) {
+    private void applySingleTargetAbility(Player player, Combatant target, List<Combatant> enemies, Ability ability) {
         int dmg = (int) DamageCalculator.calculateDamage(player, target, ability);
         
         // APPLY DAMAGE
@@ -185,7 +184,7 @@ public class Battle {
 
         if (!targetAlive) {
             speechLine(target.getName() + " has been defeated."); 
-            return false;
+            enemies.remove(target);
         }
         
         // APPLY AFFLICTION
@@ -193,7 +192,6 @@ public class Battle {
         Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
         statusStatement(target, ability.getElement().getAffliction());
         target.setAffliction(aff);
-        return true;
     }
 
     private boolean applyAoE(Player player, Combatant target, Ability ability) {
@@ -209,8 +207,8 @@ public class Battle {
         
         // apply affliction
         Affliction aff = ReactionData.returnAffliction(target.getAffliction(), ability.getElement().getAffliction());
+        statusStatement(target, ability.getElement().getAffliction());
         target.setAffliction(aff);
-        if (!(aff == null)) speechLine(target.getName() + " has been afflicted with " + aff.getName());
         return true;
     }
 
@@ -233,13 +231,14 @@ public class Battle {
     }
 
     private void applyUtility(Combatant c, Utility u) {
-        if (u.equals(UtilityTypes.MEDITATE)) { c.restoreMana((int) (c.getART() * u.getMultiplier())); }
-        else if (u.equals(UtilityTypes.HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
-        else if (u.equals(UtilityTypes.GREAT_HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
+        if (u.equals(Utilities.SKIP)) { } // NOTHING HAPPENS
+        else if (u.equals(Utilities.MEDITATE)) { c.restoreMana((int) (c.getART() * u.getMultiplier())); }
+        else if (u.equals(Utilities.HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
+        else if (u.equals(Utilities.GREAT_HEAL)) { c.restoreHealth((int) (c.getART() * u.getMultiplier())); }
     }
     
     private void applyAbility(Player player, Combatant target, List<Combatant> opponents, Ability ability) {
-        applySingleTargetAbility(player, target, ability);
+        applySingleTargetAbility(player, target, opponents, ability);
         if (ability.getTargetCount() > 1) applyAreaAbility(player, target, opponents, ability);
     }
 

@@ -17,16 +17,16 @@ public class Spell extends Ability {
     @Override 
     public boolean equals(Object obj) {
         if (!(obj instanceof Spell)) return false;
-        Spell skill = (Spell) obj;
+        Spell spell = (Spell) obj;
         return (
-            this.name == skill.getName() &&
-            this.element == skill.getElement() &&
-            this.multiplier == skill.getMultiplier() &&
+            this.name.equals(spell.getName()) &&
+            this.element == spell.getElement() &&
+            this.multiplier == spell.getMultiplier() &&
 
-            this.targetCount == skill.getTargetCount() &&
-            this.damageType == skill.getDamageType() &&
-            this.staminaCost == skill.getStaminaCost() &&
-            this.manaCost == skill.getManaCost()
+            this.targetCount == spell.getTargetCount() &&
+            this.damageType == spell.getDamageType() &&
+            this.staminaCost == spell.getStaminaCost() &&
+            this.manaCost == spell.getManaCost()
         );
     }
 }
